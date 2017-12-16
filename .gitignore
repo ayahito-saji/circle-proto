@@ -27,3 +27,6 @@
 
 #Ignore Gemfile.lock
 Gemfile.lock
+
+circle_old/
+.DS_Store

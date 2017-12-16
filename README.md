@@ -1,24 +1,24 @@
-# README
+# circle
+#### presented by esoracanvas
+これはパーティゲームまたはほかのプロジェクトを補助するツールです。
+スマートフォンまたはタブレットのみで、ゲームを友人たちと遊ぶことができます。
+ルールブックファイル(.rlb)を編集することで、ゲームを開発することができます。
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Trello
+https://trello.com/b/N4WBq0U7/circle
 
-Things you may want to cover:
+## github
+https://github.com/ayahito-saji/circle
 
-* Ruby version
+## Google Calendar
+https://calendar.google.com/calendar/render#main_7
 
-* System dependencies
+## メンバー
+#### SkySpoon
+* twitter: @sky_spoon
+* サーバーサイド&インタプリタサイド
 
-* Configuration
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+#### ねこきなこ
+* twitter: @Neko_kinaco
+* フロントエンジニア&デザイナー

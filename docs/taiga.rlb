@@ -1,0 +1,47 @@
+'ゲームの基本データ
+Main
+	title = "大河物語 - Lord of The Arcfia River"
+	auther = "枯草章吉 様"
+	date = 2017
+	minNumber = 4
+	maxNumber = 8
+	master = True
+
+'マスターのデータ
+Master
+
+'プレイヤーのデータ
+Player
+	name -mem '名前
+	tribe -mem '種族
+	class -mem '職業
+	blave -mem '武勇
+	agility -mem '機敏
+	spirit -mem '精神
+	skill[3] -mem 'スキル配列
+	gold -mem '所持金
+	items[] -mem 'アイテム配列
+	hitPoint '体力
+	hitPointMax -mem '最大体力
+	document -mem 'プレイヤー設定
+
+'準備フェイズ
+Prepare
+	Master
+	Player
+		TextView("あなたに代わって冒険するキャラクターを作成します。\n『大河物語』でのキャラクターたちは、「普通の冒険者、将来の英雄」という扱いです。\n極端な悪人、神様や悪魔などは（現時点では）プレイできません。");
+		ClearScreen()
+
+		TextView("名前を決めてください")
+		name = TextInput()
+		ClearScreen()
+
+		tribeTable[] = h["種族名","武勇","機敏","精神"]
+		tribeTable[0] = ["ラクセン人",0,1,1]
+		tribeTable[1] = ["シバ人",1,0,1]
+		tribeTable[2] = ["荒野人",1,1,0]
+		tribeTable[3] = ["東夷",1,1,0]
+		tribeTable[4] = ["東夷",1,1,0]
+		
+		TableView(tribeTable)
+		Select(1)
