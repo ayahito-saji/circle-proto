@@ -1,0 +1,16 @@
+<h1>Rooms#new</h1>
+<p>Find me in app/views/rooms/new.html.erb</p>
+
+<%= form_for @room do |f| %>
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :maximum %>
+      <%= f.number_field :maximum %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+<% end %>
