@@ -1,0 +1,45 @@
+//共通データ
+data common{
+    job_deck = {
+        set_card "werewolf" : (1, -1)
+        set_card "human" : (0, -1)
+        set_card "" : 1
+        set_total = users.length
+
+    }
+}
+
+//ユーザーのデータ
+data user{
+	string job;
+	boolean isAlive;
+}
+
+//セッション
+session{
+	//プレセッションフェイズ
+	phase presession{
+		method action{	//アクション
+		}
+		method result{	//リザルト
+			deck = new Deck;
+			all_users_do{
+				user.job = deck.drow();
+				user.isAlive = true;
+			}
+			if(you.job == "werewolf"){
+				view = "あなたは狼です";
+			}
+		}
+	}
+	phase day{
+		method action{
+			wait("0:5:0");
+		}
+		method result{
+			
+		}
+	}
+}
+
+

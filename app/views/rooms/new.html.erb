@@ -1,16 +1,24 @@
 <h1>Rooms#new</h1>
 <p>Find me in app/views/rooms/new.html.erb</p>
 
-<%= form_for @room do |f| %>
+<%= form_tag ({controller: :rooms, action: :create}) do %>
     <div class="field">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
+      <%= label :room, :name %>
+      <%= text_field :room, :name %>
     </div>
     <div class="field">
-      <%= f.label :maximum %>
-      <%= f.number_field :maximum %>
+      <%= label :room, :password %>
+      <%= password_field :room, :password %>
+    </div>
+    <div class="field">
+      <%= label :user, :name %>
+      <%= text_field :user, :name %>
+    </div>
+    <div class="field">
+      <%= label :user, :password %>
+      <%= password_field :user, :password %>
     </div>
     <div class="actions">
-      <%= f.submit %>
+      <%= submit_tag 'login or create' %>
     </div>
 <% end %>

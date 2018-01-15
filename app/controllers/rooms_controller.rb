@@ -1,10 +1,15 @@
 class RoomsController < ApplicationController
   def new
-    @room = Room.new
   end
 
   def create
-    @room = Room.new(room_params)
+    @room = Room.new
+    @room.name = params[:room][:name]
+    @room.maximum = 8
+
+    @user = User.new
+    @user.name = params[:user][:name]
+
     if @room.save
     else
       render 'new'
@@ -13,9 +18,4 @@ class RoomsController < ApplicationController
 
   def destroy
   end
-
-  private
-    def room_params
-      params.require(:room).permit(:name, :maximum)
-    end
 end
