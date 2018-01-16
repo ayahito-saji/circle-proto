@@ -25,12 +25,11 @@ class RoomsController < ApplicationController
       return
     end
 
-    @user = User.where(room_id: @room.id).find_by(name: params[:user][:name])
+    @user = @room.users.find_by(name: params[:user][:name])
     if @user.nil?
-      @user = User.new(name: params[:user][:name],
-                       room_id: @room.id,
-                       password: params[:user][:password],
-                       password_confirmation: params[:user][:password])
+      @user = @room.users.build(name: params[:user][:name],
+                                password: params[:user][:password],
+                                password_confirmation: params[:user][:password])
       if @user.save
       else
         flash.now[:danger] = "You failed to sign in as User '#{params[:user][:name]}'"
