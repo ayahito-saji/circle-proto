@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'login', to: 'rooms#new'
   post 'login', to: 'rooms#create'
   get 'logout', to: 'rooms#destroy'
+  get 'room', to: 'rooms#view'
 
   resources :rooms, only: [:new, :create, :destroy]
 
