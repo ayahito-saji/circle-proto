@@ -1,13 +1,13 @@
-<h1>Rooms#view</h1>
-<p>Find me in app/views/rooms/view.html.erb</p>
+<%= render 'shared/flash_message' %>
 <p>Room: <%= current_room.name %>(<%= current_room.users.count %>/<%= current_room.maximum %>)</p>
 <p>User: <%= current_user.name %></p>
 <p>Members:
   <ul>
     <% current_room.users.each do |users| %>
-      <li><%= users.name %></li>
+      <li>
+        <%= users.name %>
+      </li>
     <% end %>
   </ul>
 </p>
-<%= render 'shared/flash_message' %>
 <%= link_to "Log out", logout_path, method: :delete %>
