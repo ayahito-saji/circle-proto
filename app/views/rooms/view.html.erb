@@ -3,3 +3,4 @@
 <p>Room: <%= current_room.name %></p>
 <p>User: <%= current_user.name %></p>
 <%= render 'shared/flash_message' %>
+<%= link_to "Log out", logout_path, method: :delete %>

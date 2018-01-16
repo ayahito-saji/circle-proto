@@ -7,8 +7,10 @@ module RoomsHelper
     session[:room_id] && session[:session_id]
   end
   def logout
-    session[:room_id] = nil
-    session[:user_id] = nil
+    session.delete(:room_id)
+    session.delete(:user_id)
+    @current_room = nil
+    @current_user = nil
   end
   def current_room
     @current_room ||= Room.find(session[:room_id])
