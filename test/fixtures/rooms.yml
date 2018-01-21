@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  token: MyString
+  maximum: 1
+  password_digest: MyString
+  var: MyText
+
+two:
+  name: MyString
+  token: MyString
+  maximum: 1
+  password_digest: MyString
+  var: MyText
