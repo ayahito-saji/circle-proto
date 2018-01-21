@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20180121072925) do
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.string "token"
-    t.integer "maximum"
+    t.integer "maximum", default: 7
     t.string "password_digest"
     t.text "var"
     t.datetime "created_at", null: false
@@ -29,10 +29,10 @@ ActiveRecord::Schema.define(version: 20180121072925) do
     t.integer "room_id"
     t.integer "position"
     t.text "var"
-    t.boolean "actioned?"
+    t.boolean "actioned?", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "premium?"
+    t.boolean "premium?", default: false
   end
 
 end

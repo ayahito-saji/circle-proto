@@ -3,7 +3,7 @@ class CreateRooms < ActiveRecord::Migration[5.1]
     create_table :rooms do |t|
       t.string :name
       t.string :token
-      t.integer :maximum
+      t.integer :maximum, default: 7
       t.string :password_digest
       t.text :var
 

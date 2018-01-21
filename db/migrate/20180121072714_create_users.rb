@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.integer :room_id
       t.integer :position
       t.text :var
-      t.boolean :actioned?
+      t.boolean :actioned?, default: false
 
       t.timestamps
     end
