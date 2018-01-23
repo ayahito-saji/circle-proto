@@ -1,0 +1,10 @@
+<h1>Room</h1>
+<p>Find me in app/views/sessions/new.html.erb</p>
+<p>current user:<%= current_user.name %></p>
+<p>
+  <% if enter? %>
+      current room:<%= current_room.token %><br />
+  <% end %>
+  <%= link_to "create room", create_room_path, method: :post %>
+</p>
+<p><%= link_to "logout", logout_path, method: :delete %></p>

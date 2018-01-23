@@ -4,6 +4,7 @@ class RoomsController < ApplicationController
     @room = Room.new
     @room.maximum = -1 if current_user.premium?
     if @room.save
+      enter @room
       redirect_to root_path
     else
       flash.now[:danger] = "Create room error."
