@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
-  root "users#new"
+  root "sessions#show"
+
+  get "signup", to: "users#new"
+  post "signup", to: "users#create"
+  delete "signout", to: "users#destroy"
+
 
   get "login", to: "sessions#new"
   post "login", to: "sessions#create"
   get "account", to: "sessions#show"
-
-  resources :users, only: [:new, :create, :destroy]
+  delete "logout", to: "sessions#destroy"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
