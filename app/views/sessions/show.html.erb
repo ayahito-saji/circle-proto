@@ -1,4 +1,5 @@
 <h1>Sessions#show</h1>
 <p>Find me in app/views/sessions/new.html.erb</p>
 <p>current user:<%= current_user.name %></p>
+<p><%= link_to "create room", create_room_path, method: :post %></p>
 <p><%= link_to "logout", logout_path, method: :delete %></p>
