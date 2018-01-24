@@ -1,8 +1,8 @@
 class EntrancesController < ApplicationController
 
   def new
-    if !params[:p].nil?
-      room = Room.find_by(token: params[:p])
+    if !params[:t].nil?
+      room = Room.find_by(token: params[:t])
       if !room.nil?
         enter room
       else
@@ -13,7 +13,11 @@ class EntrancesController < ApplicationController
   end
 
   def destroy
+    exit_room = current_room
     exit
+    if exit_room.users.count == 0
+      exit_room.destroy
+    end
     redirect_to root_path
   end
 end

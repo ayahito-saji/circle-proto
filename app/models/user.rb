@@ -14,5 +14,5 @@ class User < ApplicationRecord
             length: {minimum: 6},
             allow_nil: true
   has_secure_password
-  belongs_to :room
+  belongs_to :room, optional: true
 end

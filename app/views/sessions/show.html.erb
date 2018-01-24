@@ -2,7 +2,7 @@
 <p>
   <% if enter? %>
       current room:<%= current_room.token %><br />
-      <%= "#{enter_url}?p=#{current_room.token}" %><br />
+      <%= "#{enter_url}?t=#{current_room.token}" %><br />
       <%= link_to "exit room", exit_path, method: :delete %>
   <% else %>
       <%= link_to "create room", create_room_path, method: :post %>

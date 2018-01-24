@@ -1,12 +1,7 @@
 module EntrancesHelper
   def enter(room)
     current_user.room_id = room.id
-    if current_user.save
-    else
-      current_user.errors.each do |msg|
-        puts(msg)
-      end
-    end
+    current_user.save
   end
   def enter?
     !current_user.room_id.nil?
