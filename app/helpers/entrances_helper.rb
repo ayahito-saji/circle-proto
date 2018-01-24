@@ -14,4 +14,15 @@ module EntrancesHelper
   def current_room
     @current_room ||= Room.find(current_user.room_id)
   end
+  def require_enter
+    until enter?
+      redirect_to account_path
+      return
+    end
+  end
+  def reject_enter
+    if enter?
+      redirect_to root_path
+    end
+  end
 end

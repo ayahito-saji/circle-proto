@@ -1,17 +1,23 @@
 class EntrancesController < ApplicationController
-
+  before_action :require_login, only: [:new, :show]
+  before_action :require_enter, only: [:show, :destroy]
   def new
-    if !params[:t].nil?
-      room = Room.find_by(token: params[:t])
+    if !params[:p].nil?
+      room = Room.find_by(token: params[:p])
       if !room.nil?
-        enter room
+        if login?
+          enter room
+        else
+          flash[:danger] = "login before entering room"
+        end
       else
         flash[:danger] = "invalid url"
       end
     end
     redirect_to root_path
   end
-
+  def show
+  end
   def destroy
     exit_room = current_room
     exit

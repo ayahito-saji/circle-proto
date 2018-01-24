@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "sessions#show"
+  root "entrances#show"
 
   get "signup", to: "users#new"
   post "signup", to: "users#create"
@@ -13,7 +13,10 @@ Rails.application.routes.draw do
   post "create_room", to: "rooms#create"
 
   get "enter", to: "entrances#new"
+  get "room", to: "entrances#show"
   delete "exit", to: "entrances#destroy"
+
+  get "enter", to: "entrances#show"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

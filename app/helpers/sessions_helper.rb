@@ -6,7 +6,6 @@ module SessionsHelper
     !session[:user_id].nil? && User.exists?(session[:user_id])
   end
   def logout
-    exit
     session.delete(:user_id)
     @current_user = nil
   end

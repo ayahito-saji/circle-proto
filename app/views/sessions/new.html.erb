@@ -1,5 +1,4 @@
-<h1>Sessions#new</h1>
-<p>Find me in app/views/sessions/new.html.erb</p>
+<h1>Login</h1>
 <%= form_for :session, url: login_path do |f| %>
     <div class="field">
       <%= f.label :email %>
@@ -14,5 +13,5 @@
     </div>
 <% end %>
 <p>
-  If you do NOT have an account, please <%= link_to "Signup", signup_path %> now!
+  If you do NOT have an account, please <%= link_to "Sign up", signup_path %> now!
 </p>
