@@ -19,7 +19,6 @@ module SessionsHelper
       return
     end
   end
-
   def reject_login
     if login?
       redirect_to root_path
@@ -27,5 +26,11 @@ module SessionsHelper
     end
   end
 
-
+  def login_title
+    if remember_room_token?
+      "Login to enter Room #{current_room_token}"
+    else
+      "Login"
+    end
+  end
 end

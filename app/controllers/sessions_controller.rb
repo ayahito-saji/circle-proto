@@ -8,7 +8,11 @@ class SessionsController < ApplicationController
     user = User.find_by(email: login_params[:email].downcase)
     if !user.nil? && user.authenticate(login_params[:password])
       login user
-      redirect_to root_path
+      if remember_room_token?
+        redirect_to enter_path
+      else
+        redirect_to root_path
+      end
     else
       flash.now[:danger] = "Login error."
       render 'new'

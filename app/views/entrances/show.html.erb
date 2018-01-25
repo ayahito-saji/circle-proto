@@ -1,8 +1,8 @@
-<h1>Room</h1>
+<h1>Room <%= current_room.token %></h1>
 <p>current user:<%= link_to current_user.name, account_path %></p>
 <p><%= "#{enter_url}?p=#{current_room.token}" %><br />
 <p><%= link_to "exit", exit_path, method: :delete %></p>
-<p>
+<p>members<%= "(#{current_room.users.count}/#{current_room.maximum})" %>:
   <ul>
   <% current_room.users.each do |user| %>
     <li><%= user.name %></li>

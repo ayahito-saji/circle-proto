@@ -1,9 +1,10 @@
-<h1>Account:<%= current_user.name %></h1>
+<h1>Account <%= current_user.name %></h1>
 <p>
   <% if enter? %>
       current room:<%= link_to  current_room.token, room_path %><br />
       <%= link_to "exit room", exit_path, method: :delete %>
   <% else %>
+      <%= link_to "search room", enter_path %>
       <%= link_to "create room", create_room_path, method: :post %>
   <% end %>
 </p>

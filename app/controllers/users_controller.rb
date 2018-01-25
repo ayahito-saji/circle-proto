@@ -8,7 +8,11 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       login@user
-      redirect_to account_path
+      if remember_room_token?
+        redirect_to enter_path
+      else
+        redirect_to root_path
+      end
     else
       render 'new'
     end

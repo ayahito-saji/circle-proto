@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post "create_room", to: "rooms#create"
 
   get "enter", to: "entrances#new"
+  post "enter", to: "entrances#create"
   get "room", to: "entrances#show"
   delete "exit", to: "entrances#destroy"
 
