@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Circle</title>
+    <title>CIRCLE</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -11,6 +11,6 @@
   <body>
     <%= render 'shared/flash_message' %>
     <%= yield %>
-    <%= debug(params) %>
+    <%= debug(params) if Rails.env.development? %>
   </body>
 </html>
