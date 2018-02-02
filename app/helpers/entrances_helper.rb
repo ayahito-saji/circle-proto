@@ -40,13 +40,13 @@ module EntrancesHelper
     exit_room = current_room
     current_user.room_id = nil
     current_user.save
-    if !exit_room.nil? && exit_room.users.count == 0
+    if (!exit_room.nil?) && exit_room.users.count == 0
       exit_room.destroy
     end
     @current_room = nil
   end
   def current_room
-    @current_room ||= Room.find(current_user.room_id)
+      @current_room |= Room.find_by(id: current_user.room_id)
   end
   def require_enter
     until enter?
