@@ -11,6 +11,7 @@ class EntrancesController < ApplicationController
         forget_room_token
         if !room.nil?
           if enter room
+            RoomChannel.broadcast_to(current_user.room_id, body: "Entered", from: current_user.name)
             redirect_to root_path
             return
           else
@@ -34,6 +35,7 @@ class EntrancesController < ApplicationController
   end
 
   def destroy
+    RoomChannel.broadcast_to(current_user.room_id, body: "Exited", from: current_user.name)
     exit
     redirect_to root_path
   end
