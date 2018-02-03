@@ -40,7 +40,7 @@ module EntrancesHelper
     exit_room = current_room
     current_user.room_id = nil
     current_user.save
-    if exit_room && exit_room.users.count == 0
+    if !exit_room.nil? && exit_room.users.count == 0
       exit_room.destroy
     end
     @current_room = nil
