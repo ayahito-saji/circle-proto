@@ -3,7 +3,7 @@ module SessionsHelper
     session[:user_id] = user.id
   end
   def login?
-    !session[:user_id].nil? && User.exists?(session[:user_id])
+    !session[:user_id].nil? && current_user
   end
   def logout
     session.delete(:user_id)
