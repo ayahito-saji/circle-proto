@@ -13,7 +13,7 @@ module EntrancesHelper
   end
 
   def enter(room)
-    if !current_user.room_id.nil?
+    if enter?
       exit
     end
     if room.users.count < room.maximum || room.maximum == -1
@@ -24,14 +24,10 @@ module EntrancesHelper
     end
   end
   def enter?
-    if !current_user.room_id.nil?
-      if current_room
-        true
-      else
-        exit
-        false
-      end
+    if !current_room.nil?
+      true
     else
+      exit if !current_user.room_id.nil?
       false
     end
   end
