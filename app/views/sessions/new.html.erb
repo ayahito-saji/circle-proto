@@ -1,17 +1,26 @@
-<h1><%= login_title %></h1>
-<%= form_for :session, url: login_path do |f| %>
-    <div class="field">
-      <%= f.label :email %>
-      <%= f.email_field :email %>
-    </div>
-    <div class="field">
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-    </div>
-    <div class="field">
-      <%= f.submit "login" %>
-    </div>
-<% end %>
-<p>
-  If you do NOT have an account, please <%= link_to "Sign up", signup_path %> now!
-</p>
+<div id="login">
+  <div class="window-left col-md-6 col-12">
+    <span class="catch-copy">集まれば、遊べる。</span>
+    <%= image_tag("circle1_color_gradation.svg") %>
+  </div>
+  <div class="window-right col-md-6 col-12">
+    <h1><%= login_title %></h1>
+    <%= form_for :session, url: login_path do |f| %>
+        <div class="field">
+          <%= f.label :email %>
+          <%= f.email_field :email %>
+        </div>
+        <div class="field">
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+        </div>
+        <div class="field">
+          <%= f.submit "Login",class:'submit' %>
+        </div>
+    <% end %>
+    <p>
+      or
+      <%= link_to "Sign up", signup_path %>
+    </p>
+  </div>
+</div>
