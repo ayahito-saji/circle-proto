@@ -5,7 +5,7 @@
   </div>
   <div class="window-righ col-md-6 col-12">
     <h1><%= signup_title %></h1>
-
+    <span class="line"></span>
     <%= form_for @user, url: signup_path do |f| %>
         <% if @user.errors.any? %>
             <div id="error_explanation">

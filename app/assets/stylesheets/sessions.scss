@@ -5,21 +5,34 @@ html,body{
   height: 100%;
 }
 #login{
-  display: flex;
   height: 100%;
   margin: 0;
   .window-left{
+    margin: 0;
+    float: left;
     height: 100%;
+    width: 50%;
     background: linear-gradient(135deg, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
-      .catch-copy{
-        font-size: 1.75em;
+    .window-left-content{
+      height: 100%;
+      letter-spacing: 0.5em;
+      align-items: center;
+      img{
         display: flex;
-        justify-content: center;
-        color: #4D4D4D;
       }
     }
+  }
   .window-right{
+    float: left;
+    align-content:center;
+    letter-spacing: 0.125em;
     height: 100%;
     color: #666666;
+    form{
+
+      .field{
+        text-align: right;
+      }
+    }
   }
 }

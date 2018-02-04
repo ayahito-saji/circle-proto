@@ -1,17 +1,43 @@
 *{
   font-family: "游ゴシック", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
+  .or{
+    display: block;
+    margin: 1em auto;
+  }
+  .line{
+    display: inline-block;
+    height: 4px;
+    width: 15%;
+    background: linear-gradient(135deg, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
+  }
   .submit{
     color: white;
     background: linear-gradient(#E6987C,#E7B296);
     border-radius: 3em;
     padding: 1em 5em;
+    transition-duration: 0.5s;
+    border: none;
     &:hover{
       cursor: pointer;
-      opacity: 0.3;
+      opacity: 0.5;
+      transition-duration: 0.5s;
     }
   }
+  //線だけにしておく
   .submit-link{
+    display: block;
+    color: #666;
+    background: linear-gradient(#E6987C,#E7B296);
+    //border: 2px solid #E6987C;
     border-radius: 3em;
-    padding: 1em 5em;
+    padding: 1em 0;
+    transition-duration: 0.5s;
+    border: none;
+    &:hover{
+      cursor: pointer;
+      opacity: 0.5;
+      transition-duration: 0.5s;
+      text-decoration: none;
+    }
   }
 }
