@@ -28,9 +28,11 @@ html,body{
     letter-spacing: 0.125em;
     height: 100%;
     color: #666666;
+    text-align: center;
     form{
-
-      .field{
+      display: inline-block;
+      text-align: center;
+      .label{
         text-align: right;
       }
     }

@@ -10,11 +10,11 @@
     <div class="form">
       <%= form_for :session, url: login_path do |f| %>
           <div class="field">
-            <%= f.label :email %>
+            <%= f.label :email ,:class => 'label' %>
             <%= f.email_field :email %>
           </div>
           <div class="field">
-            <%= f.label :password %>
+            <%= f.label :password ,:class => 'label' %>
             <%= f.password_field :password %>
           </div>
           <div class="field">
