@@ -1,6 +1,16 @@
 *{
   font-family: "游ゴシック", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
   .submit{
+    color: white;
+    background: linear-gradient(#E6987C,#E7B296);
+    border-radius: 3em;
+    padding: 1em 5em;
+    &:hover{
+      cursor: pointer;
+      opacity: 0.3;
+    }
+  }
+  .submit-link{
     border-radius: 3em;
     padding: 1em 5em;
   }

@@ -10,9 +10,7 @@ html,body{
   margin: 0;
   .window-left{
     height: 100%;
-    background: -webkit-linear-gradient(bottom left, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
-    background: -o-linear-gradient(bottom left, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
-    background: linear-gradient(to top right, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
+    background: linear-gradient(135deg, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
       .catch-copy{
         font-size: 1.75em;
         display: flex;

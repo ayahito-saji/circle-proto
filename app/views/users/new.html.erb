@@ -3,7 +3,7 @@
     <span class="catch-copy">集まれば、遊べる。</span>
     <%= image_tag("circle1_color_gradation.svg") %>
   </div>
-  <div class="window-righ col-md-6 col-12t">
+  <div class="window-righ col-md-6 col-12">
     <h1><%= signup_title %></h1>
 
     <%= form_for @user, url: signup_path do |f| %>
@@ -40,7 +40,7 @@
         </div>
     <% end %>
     <p>
-      <%= link_to "Login", login_path %>
+      <%= link_to "Login", login_path,class:'submit-link' %>
     </p>
   </div>
 </div>
