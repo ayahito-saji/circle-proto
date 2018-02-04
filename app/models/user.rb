@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
   before_save { self.email.downcase! }
   validates :name,
             presence: true,

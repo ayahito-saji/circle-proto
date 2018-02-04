@@ -12,11 +12,10 @@ module SessionsHelper
     @current_user = nil
   end
   def remember_cookie
-    current_user.remember_token = User.new_token
-    current_user.update_attribute(:remember_digest, User.digest(current_user.remember_token))
-
+    remember_token = User.new_token
+    current_user.update_attribute(:remember_digest, User.digest(remember_token))
     cookies.permanent.signed[:user_id] = current_user.id
-    cookies.permanent[:remember_token] = current_user.remember_token
+    cookies.permanent[:remember_token] = remember_token
   end
   def forget_cookie
     current_user.update_attribute(:remember_digest, nil)
