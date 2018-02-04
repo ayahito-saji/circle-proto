@@ -17,8 +17,7 @@ module EntrancesHelper
       exit
     end
     if room.users.count < room.maximum || room.maximum == -1
-      current_user.room_id = room.id
-      current_user.save
+      current_user.update_attribute(:room_id, room.id)
       true
     else
       false
@@ -38,8 +37,7 @@ module EntrancesHelper
   end
   def exit
     exit_room = current_room
-    current_user.room_id = nil
-    current_user.save
+    current_user.update_attribute(:room_id, nil)
     if !exit_room.nil? && exit_room.users.count == 0
       exit_room.destroy
     end
@@ -50,7 +48,7 @@ module EntrancesHelper
   end
   def require_enter
     until enter?
-      redirect_to enter_path
+      redirect_to account_path
       return
     end
   end
