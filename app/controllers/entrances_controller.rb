@@ -1,6 +1,6 @@
 class EntrancesController < ApplicationController
   before_action :require_login, only: [:create]
-  before_action :reject_login, only: [:create]
+  before_action :reject_enter, only: [:create]
   before_action :require_enter, only: [:destroy]
   def new
     if !params[:p].nil?
