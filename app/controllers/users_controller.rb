@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
+  #ユーザーの作成、閲覧、編集を行うコントローラ
   before_action :reject_login, only: [:new, :create]
   before_action :require_login, only: [:show, :edit, :update, :destroy]
+
+  #ユーザーの新規登録を行う
   def new
     @user = User.new
   end
-
   def create
     @user = User.new(user_params)
     if @user.save
@@ -19,15 +21,17 @@ class UsersController < ApplicationController
     end
   end
 
+  #ユーザーアカウントページ
   def show
   end
 
+  #ユーザー設定の編集ページ
   def edit
   end
-
   def update
   end
 
+  #ユーザー削除ページ
   def destroy
   end
 
