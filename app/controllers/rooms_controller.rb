@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
   before_action :require_login
+  before_action :require_enter, only: [:edit, :update]
   def create
     @room = Room.new
     @room.maximum = -1 if current_user.premium?
@@ -13,5 +14,9 @@ class RoomsController < ApplicationController
       flash.now[:danger] = "Create room error."
       redirect_to root_path
     end
+  end
+  def edit
+  end
+  def update
   end
 end

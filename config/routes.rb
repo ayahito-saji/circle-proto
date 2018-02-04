@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   delete "logout", to: "sessions#destroy"
 
   post "create_room", to: "rooms#create"
+  get "room_setting", to: "rooms#edit"
+  post "room_setting", to: "rooms#update"
 
   get "enter", to: "entrances#new"
   post "enter", to: "entrances#create"
