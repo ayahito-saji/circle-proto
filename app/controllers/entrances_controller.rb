@@ -10,6 +10,10 @@ class EntrancesController < ApplicationController
         room = Room.find_by(token: current_room_token)
         forget_room_token
         if !room.nil?
+          if current_room.id == room.id # 現在のルームと同じ部屋に入ろうとしていたらrootパスへと移動する
+            redirect_to root_path
+            return
+          end
           if enter room
             RoomChannel.broadcast_to(current_user.room_id, body: "Entered", from: current_user.name)
             redirect_to root_path

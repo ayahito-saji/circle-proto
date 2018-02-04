@@ -1,4 +1,5 @@
 <h1>Account <%= current_user.name %></h1>
+<%= icon_for current_user %>
 <p>
   <% if enter? %>
       current room:<%= link_to  current_room.token, room_path %><br />
