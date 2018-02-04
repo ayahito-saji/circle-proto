@@ -27,7 +27,6 @@ class RoomsController < ApplicationController
 
   #部屋の設定する
   def edit
-    @room = current_room
   end
   def update
     #部屋の検索許可が下りているならバリデーション（ルーム名かぶりなし、パスワード空白ダメ）を行う
@@ -36,8 +35,8 @@ class RoomsController < ApplicationController
       flash[:success] = "ルーム設定を正しく保存できました"
       redirect_to root_path
     else #部屋の設定に失敗した場合、ルーム名がすでに使用されている
-      flash[:danger] = "そのルーム名はすでに使用されています。"
-      redirect_to room_setting_path
+      flash.now[:danger] = "ルーム名、パスワードが空白か、そのルーム名は既に使用されています"
+      render 'edit'
     end
   end
 

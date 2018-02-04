@@ -29,6 +29,13 @@ class UsersController < ApplicationController
   def edit
   end
   def update
+    if current_user.update_attributes(user_params)
+      flash[:success] = "ユーザー設定を正しく保存できました"
+      redirect_to account_path
+    else
+      flash.now[:danger] = "ユーザー情報に誤りがあります"
+      render 'edit'
+    end
   end
 
   #ユーザー削除ページ
