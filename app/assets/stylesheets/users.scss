@@ -1,3 +1,27 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+html,body{
+  height: 100%;
+}
+#signup{
+  display: flex;
+  height: 100%;
+  margin: 0;
+  .window-left{
+    height: 100%;
+    background: -webkit-linear-gradient(bottom left, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
+    background: -o-linear-gradient(bottom left, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
+    background: linear-gradient(to top right, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
+      .catch-copy{
+        font-size: 1.75em;
+        display: flex;
+        justify-content: center;
+        color: #4D4D4D;
+      }
+    }
+  .window-right{
+    height: 100%;
+    color: #666666;
+  }
+}
