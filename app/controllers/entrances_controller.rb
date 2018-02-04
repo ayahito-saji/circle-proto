@@ -1,6 +1,7 @@
 class EntrancesController < ApplicationController
-  before_action :require_login, only: [:show, :create]
-  before_action :require_enter, only: [:show, :destroy]
+  before_action :require_login, only: [:create]
+  before_action :reject_login, only: [:create]
+  before_action :require_enter, only: [:destroy]
   def new
     if !params[:p].nil?
       remember_room_token params[:p]
@@ -10,7 +11,7 @@ class EntrancesController < ApplicationController
         room = Room.find_by(token: current_room_token)
         forget_room_token
         if !room.nil?
-          if current_room.id == room.id # 現在のルームと同じ部屋に入ろうとしていたらrootパスへと移動する
+          if enter? and current_room.id == room.id # 現在のルームと同じ部屋に入ろうとしていたらrootパスへと移動する
             redirect_to root_path
             return
           end

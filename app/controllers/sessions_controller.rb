@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   before_action :reject_login, only: [:new, :create]
-  before_action :require_login, only: [:show, :destroy]
+  before_action :require_login, only: [:destroy]
   def new
   end
 
@@ -17,9 +17,6 @@ class SessionsController < ApplicationController
       flash.now[:danger] = "Login error."
       render 'new'
     end
-  end
-
-  def show
   end
 
   def destroy

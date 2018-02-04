@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :reject_login, only: [:new, :create]
+  before_action :require_login, only: [:show, :edit, :update, :destroy]
   def new
     @user = User.new
   end
@@ -16,6 +17,9 @@ class UsersController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def show
   end
 
   def edit
