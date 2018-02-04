@@ -3,6 +3,9 @@ class RoomsController < ApplicationController
   def create
     @room = Room.new
     @room.maximum = -1 if current_user.premium?
+    @room.name = "dummy_room_name"
+    @room.password = "dummy_room_password"
+    @room.skip_name_uniqueness = true
     if @room.save
       enter @room
       redirect_to root_path

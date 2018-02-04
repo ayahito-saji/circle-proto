@@ -33,6 +33,19 @@ class EntrancesController < ApplicationController
   end
 
   def create
+    room = Room.where(has_name: true).find_by(name: enter_params[:name])
+    if !room.nil? && room.authenticate(enter_params[:password])
+      if enter room
+        RoomChannel.broadcast_to(current_user.room_id, body: "Entered", from: current_user.name)
+        redirect_to root_path
+        return
+      else
+        flash.now[:danger] = "The room is already full of members.(7/7)"
+      end
+    else
+      flash.now[:danger] = "The room doesn't exist"
+    end
+    render 'new'
   end
 
   def show
@@ -42,5 +55,8 @@ class EntrancesController < ApplicationController
     RoomChannel.broadcast_to(current_user.room_id, body: "Exited", from: current_user.name)
     exit
     redirect_to root_path
+  end
+  def enter_params
+    params.require(:entrance).permit(:name, :password)
   end
 end

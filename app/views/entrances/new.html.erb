@@ -1,3 +1,16 @@
-<h1>Room Search</h1>
+<h1>Enter</h1>
 <p>current user:<%= link_to current_user.name, account_path %></p>
+<%= form_for :entrance, url: enter_path do |f| %>
+    <div class="field">
+      <%= f.label :room_name %>
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :room_key %>
+      <%= f.text_field :password %>
+    </div>
+    <div class="field">
+      <%= f.submit "enter" %>
+    </div>
+<% end %>
 <p>or <%= link_to "create room", create_room_path, method: :post %></p>
