@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204062852) do
+ActiveRecord::Schema.define(version: 20180204093049) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.string "token"
     t.integer "maximum", default: 7
-    t.string "password_digest"
+    t.string "password"
     t.text "var"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "has_name", default: false
+    t.boolean "allow_search", default: false
   end
 
   create_table "users", force: :cascade do |t|

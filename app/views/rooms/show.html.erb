@@ -3,6 +3,14 @@
 <p><%= "#{enter_url}?p=#{current_room.token}" %><br />
 <p><%= link_to "setting", room_setting_path %></p>
 <p><%= link_to "exit", exit_path, method: :delete %></p>
+<% if current_room.allow_search %>
+    <p>Room allow to search with Room Name and Key.</p>
+    <p>Room Name:<%= current_room.name %></p>
+    <p>Room Key:<%= current_room.password %></p>
+<% else %>
+    <p>Room do not allow to search with Room Name and Key.</p>
+<% end %>
+
 <p>members<%= "(#{current_room.users.count}/#{current_room.maximum})" %>:
   <ul>
   <% current_room.users.each do |user| %>
