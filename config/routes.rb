@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   get "signup", to: "users#new"
   post "signup", to: "users#create"
+  get "account/setting", to: "users#edit"
+  post "account/setting", to: "users#update"
   delete "signout", to: "users#destroy"
 
   get "login", to: "sessions#new"
@@ -10,9 +12,9 @@ Rails.application.routes.draw do
   get "account", to: "sessions#show"
   delete "logout", to: "sessions#destroy"
 
-  post "create_room", to: "rooms#create"
-  get "room_setting", to: "rooms#edit"
-  post "room_setting", to: "rooms#update"
+  post "room/create", to: "rooms#create"
+  get "room/setting", to: "rooms#edit"
+  post "room/setting", to: "rooms#update"
 
   get "enter", to: "entrances#new"
   post "enter", to: "entrances#create"
