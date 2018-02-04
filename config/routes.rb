@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post "signup", to: "users#create"
   get "account", to: "users#show"
   get "account/setting", to: "users#edit"
-  post "account/setting", to: "users#update"
+  patch "account/setting", to: "users#update"
   delete "signout", to: "users#destroy"
 
   get "login", to: "sessions#new"
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   post "room/create", to: "rooms#create"
   get "room", to: "rooms#show"
   get "room/setting", to: "rooms#edit"
-  post "room/setting", to: "rooms#update"
+  patch "room/setting", to: "rooms#update"
 
   get "enter", to: "entrances#new"
   post "enter", to: "entrances#create"

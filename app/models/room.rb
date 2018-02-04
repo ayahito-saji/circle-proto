@@ -1,13 +1,9 @@
 class Room < ApplicationRecord
-  attr_accessor :skip_name_uniqueness
-  has_secure_password
+  attr_accessor :skip_search_validation
   has_secure_token
   has_many :users
   validates :name,
-            presence: true,
             length: {maximum: 50}
-  validates :name, uniqueness: { case_sensitive: false } unless :skip_name_uniqueness
-  validates :password,
-            presence: true,
-            allow_nil: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }, unless: :skip_search_validation
+  validates :password, presence: true, unless: :skip_search_validation
 end

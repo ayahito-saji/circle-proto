@@ -34,8 +34,8 @@ class EntrancesController < ApplicationController
   end
 
   def create
-    room = Room.where(has_name: true).find_by(name: enter_params[:name])
-    if !room.nil? && room.authenticate(enter_params[:password])
+    room = Room.where(allow_search: true).find_by(name: enter_params[:name])
+    if !room.nil? && room.password == enter_params[:password]
       if enter room
         RoomChannel.broadcast_to(current_user.room_id, body: "Entered", from: current_user.name)
         redirect_to root_path
