@@ -1,18 +1,18 @@
-<h1>Room Setting</h1>
+<h1>ルーム設定</h1>
 <%= form_for current_room, url: room_setting_path do |f| %>
     <div class="field">
-      <%= f.check_box :allow_search %>検索を許可する
+      <%= f.check_box :allow_search %>ルーム名とルームキーで検索を許可する
     </div>
     <div class="field">
-      <%= f.label :room_name %>
+      <label>ルーム名</label>
       <%= f.text_field :name %>
     </div>
     <div class="field">
-      <%= f.label :room_key %>
+      <label>ルームキー</label>
       <%= f.text_field :password %>
     </div>
     <div class="field">
-      <%= f.submit %>
+      <%= f.submit "保存" %>
     </div>
 <% end %>
-<p><%= link_to "Cancel", room_path %></p>
+<p><%= link_to "キャンセル", room_path %></p>

@@ -1,21 +1,21 @@
-<h1>Room <%= current_room.token %></h1>
-<p>current user:<%= link_to current_user.name, account_path %></p>
-<p><%= "#{enter_url}?p=#{current_room.token}" %><br />
-<p><%= link_to "setting", room_setting_path %></p>
-<p><%= link_to "exit", exit_path, method: :delete %></p>
-<% if current_room.allow_search %>
-    <p>Room allow to search with Room Name and Key.</p>
-    <p>Room Name:<%= current_room.name %></p>
-    <p>Room Key:<%= current_room.password %></p>
-<% else %>
-    <p>Room do not allow to search with Room Name and Key.</p>
-<% end %>
-
-<p>members<%= "(#{current_room.users.count}/#{current_room.maximum})" %>:
-  <ul>
+<h1>ルーム</h1>
+<p>アカウント:<%= link_to current_user.name, account_path %></p>
+<p><%= text_field :room, :url, value: "#{enter_url}?p=#{current_room.token}" %><br />
+<p>メンバー<%= "(#{current_room.users.count}/#{current_room.maximum})" %>:
+<ul>
   <% current_room.users.each do |user| %>
-    <li><%= user.name %></li>
+      <li><%= user.name %></li>
   <% end %>
-  </ul>
+</ul>
 </p>
+<p>
+  <% if current_room.allow_search %>
+    <p>この部屋は検索が許可されています。</p>
+    <p>ルーム名:<%= current_room.name %></p>
+    <p>ルームキー:<%= current_room.password %></p>
+  <% else %>
+    <p>この部屋は検索が許可されていません。許可する場合は、<%= link_to "ルーム設定", room_setting_path %>から変更してください。</p>
+  <% end %>
 </p>
+<p><%= link_to "ルーム設定", room_setting_path %></p>
+<p><%= link_to "退出", exit_path, method: :delete %></p>

@@ -1,12 +1,11 @@
-<h1>Account <%= current_user.name %></h1>
+<h1><%= current_user.name %></h1>
 <p>
   <% if enter? %>
-      current room:<%= link_to  current_room.token, room_path %><br />
-      <%= link_to "exit room", exit_path, method: :delete %>
+    <p><%= link_to  "現在の部屋", room_path %></p>
   <% else %>
-      <%= link_to "search room", enter_path %>
-      <%= link_to "create room", room_create_path, method: :post %>
+    <p><%= link_to "ルーム検索", enter_path %></p>
+    <p><%= link_to "ルーム新規作成", room_create_path, method: :post %></p>
   <% end %>
 </p>
-<p><%= link_to "setting", account_setting_path %></p>
-<p><%= link_to "logout", logout_path, method: :delete %></p>
+<p><%= link_to "アカウント設定", account_setting_path %></p>
+<p><%= link_to "ログアウト", logout_path, method: :delete %></p>

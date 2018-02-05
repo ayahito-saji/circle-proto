@@ -1,16 +1,16 @@
-<h1>Enter</h1>
-<p>current user:<%= link_to current_user.name, account_path %></p>
+<h1>ルームに入る</h1>
+<p>アカウント:<%= link_to current_user.name, account_path %></p>
 <%= form_for :entrance, url: enter_path do |f| %>
     <div class="field">
-      <%= f.label :room_name %>
+      <label>ルーム名</label>
       <%= f.text_field :name %>
     </div>
     <div class="field">
-      <%= f.label :room_key %>
+      <label>ルームキー</label>
       <%= f.text_field :password %>
     </div>
     <div class="field">
-      <%= f.submit "enter" %>
+      <%= f.submit "入室" %>
     </div>
 <% end %>
-<p>or <%= link_to "create room", room_create_path, method: :post %></p>
+<p>または <%= link_to "ルーム新規作成", room_create_path, method: :post %></p>

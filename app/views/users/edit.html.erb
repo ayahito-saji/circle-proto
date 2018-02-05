@@ -1,15 +1,19 @@
-<h1>Account Setting</h1>
+<h1>アカウント設定</h1>
 <%= form_for current_user, url: account_setting_path do |f| %>
     <div class="field">
-      <%= f.label :name %>
+      <label>名前</label>
       <%= f.text_field :name %>
     </div>
     <div class="field">
-      <%= f.label :email %>
+      <label>メールアドレス</label>
       <%= current_user.email %>
     </div>
     <div class="field">
-      <%= f.submit %>
+      <label>プレミアムユーザー</label>
+      <%= current_user.premium? %>
+    </div>
+    <div class="field">
+      <%= f.submit "設定の保存" %>
     </div>
 <% end %>
-<p><%= link_to "Cancel", account_path %></p>
+<p><%= link_to "キャンセル", account_path %></p>
