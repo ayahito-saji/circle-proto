@@ -1,15 +1,11 @@
 module EntrancesHelper
-  def remember_room_token(room_token)
-    session[:room_token] = room_token
-  end
-  def remember_room_token?
-    !session[:room_token].nil?
-  end
-  def current_room_token
-    session[:room_token]
-  end
-  def forget_room_token
-    session.delete(:room_token)
+  def append_query(url, queries)
+    queries.select! {|key, value| !value.blank?}
+    if queries.any?
+      "#{url}?#{queries.to_query}"
+    else
+      url
+    end
   end
 
   def enter(room)

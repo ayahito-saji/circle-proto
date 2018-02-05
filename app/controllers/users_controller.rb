@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-  #ユーザーの作成、閲覧、編集を行うコントローラ
+  # ユーザーの作成、閲覧、編集を行うコントローラ
   before_action :reject_login, only: [:new, :create]
   before_action :require_login, only: [:show, :edit, :update, :destroy]
 
-  #ユーザーの新規登録を行う
+  # ユーザーの新規登録を行う
   def new
     @user = User.new
   end
@@ -11,8 +11,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       login@user
-      if remember_room_token?
-        redirect_to enter_path
+      if !params[:p].nil?
+        redirect_to append_query(enter_path, p: params[:p])
       else
         redirect_to root_path
       end
@@ -21,11 +21,11 @@ class UsersController < ApplicationController
     end
   end
 
-  #ユーザーアカウントページ
+  # ユーザーアカウントページ
   def show
   end
 
-  #ユーザー設定の編集ページ
+  # ユーザー設定の編集ページ
   def edit
   end
   def update
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     end
   end
 
-  #ユーザー削除ページ
+  # ユーザー削除ページ
   def destroy
   end
 
