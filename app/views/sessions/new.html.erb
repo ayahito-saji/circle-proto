@@ -8,7 +8,7 @@
     <h1>ログイン</h1>
     <span class="line"></span>
     <div class="form">
-      <%= form_for :session, url: login_path do |f| %>
+      <%= form_for :session, url: append_query(login_path, p: params[:p]) do |f| %>
           <div class="field">
             <label class="label">メールアドレス</label>
             <%= f.email_field :email %>
@@ -24,7 +24,7 @@
     </div>
     <p>
       <span class="or">または</span>
-      <%= link_to "新規登録", signup_path, class:'submit-link' %>
+      <%= link_to "新規登録", append_query(signup_path, p: params[:p]), class:'submit-link' %>
     </p>
   </div>
 </div>

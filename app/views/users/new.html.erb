@@ -6,7 +6,7 @@
   <div class="window-right col-md-6 col-12">
     <h1>新規登録</h1>
     <span class="line"></span>
-    <%= form_for @user, url: signup_path do |f| %>
+    <%= form_for @user, url: append_query(signup_path, p: params[:p]) do |f| %>
         <% if @user.errors.any? %>
             <div id="error_explanation">
               <div class="alert alert-danger">
@@ -40,7 +40,7 @@
         </div>
     <% end %>
     <p>
-      <%= link_to "ログイン", login_path, class:'submit-link' %>
+      <%= link_to "ログイン", append_query(login_path, p: params[:p]), class:'submit-link' %>
     </p>
   </div>
 </div>
