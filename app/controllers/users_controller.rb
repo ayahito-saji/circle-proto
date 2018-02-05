@@ -1,10 +1,19 @@
 class UsersController < ApplicationController
   # ユーザーの作成、閲覧、編集を行うコントローラ
-  before_action :reject_login, only: [:new, :create]
+  before_action :reject_login, only: [:create]
   before_action :require_login, only: [:show, :edit, :update, :destroy]
 
   # ユーザーの新規登録を行う
   def new
+    if login? # reject_loginの特殊な形
+      if !params[:p].nil? # ログインしていてかつ入室パラメータがある場合はエンターが実行される
+        redirect_to append_query(enter_path, p: params[:p])
+        return
+      else
+        redirect_to append_query(root_path, p: params[:p])
+        return
+      end
+    end
     @user = User.new
   end
   def create

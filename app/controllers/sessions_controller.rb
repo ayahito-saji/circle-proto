@@ -1,10 +1,19 @@
 class SessionsController < ApplicationController
   # ログインログアウトを担当するコントローラ
-  before_action :reject_login, only: [:new, :create]
+  before_action :reject_login, only: [:create]
   before_action :require_login, only: [:destroy]
 
   # ログイン
   def new
+    if login? # reject_loginの特殊な形
+      if !params[:p].nil? # ログインしていてかつ入室パラメータがある場合はエンターが実行される
+        redirect_to append_query(enter_path, p: params[:p])
+        return
+      else
+        redirect_to append_query(root_path, p: params[:p])
+        return
+      end
+    end
   end
   def create
     # メールアドレス(小文字)でユーザーを検索
