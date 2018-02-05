@@ -3,8 +3,8 @@
     <span class="catch-copy">集まれば、遊べる。</span>
     <%= image_tag("circle1_color_gradation.svg") %>
   </div>
-  <div class="window-righ col-md-6 col-12">
-    <h1><%= signup_title %></h1>
+  <div class="window-right col-md-6 col-12">
+    <h1>新規登録</h1>
     <span class="line"></span>
     <%= form_for @user, url: signup_path do |f| %>
         <% if @user.errors.any? %>
@@ -20,27 +20,27 @@
             </div>
         <% end %>
         <div class="field">
-          <%= f.label :name %>
+          <label>名前</label>
           <%= f.text_field :name %>
         </div>
         <div class="field">
-          <%= f.label :email %>
+          <label>メールアドレス</label>
           <%= f.email_field :email %>
         </div>
         <div class="field">
-          <%= f.label :password %>
+          <label>パスワード</label>
           <%= f.password_field :password %>
         </div>
         <div class="field">
-          <%= f.label :password_confirmation %>
+          <label>パスワード確認</label>
           <%= f.password_field :password_confirmation %>
         </div>
         <div class="actions">
-          <%= f.submit class:'submit' %>
+          <%= f.submit "新規登録", class:'submit' %>
         </div>
     <% end %>
     <p>
-      <%= link_to "Login", login_path,class:'submit-link' %>
+      <%= link_to "ログイン", login_path, class:'submit-link' %>
     </p>
   </div>
 </div>

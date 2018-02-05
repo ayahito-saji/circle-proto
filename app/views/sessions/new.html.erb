@@ -1,30 +1,30 @@
 <div id="login">
   <div class="window-left container">
     <div class="window-left-content row">
-      <%= image_tag("circle1_color_gradation.svg",:class => 'col-12') %>
+      <%= image_tag("circle1_color_gradation.svg", class: 'col-12') %>
     </div>
   </div>
   <div class="window-right col-md-6 col-12">
-    <h1><%= login_title %></h1>
+    <h1>ログイン</h1>
     <span class="line"></span>
     <div class="form">
       <%= form_for :session, url: login_path do |f| %>
           <div class="field">
-            <%= f.label :email ,:class => 'label' %>
+            <label class="label">メールアドレス</label>
             <%= f.email_field :email %>
           </div>
           <div class="field">
-            <%= f.label :password ,:class => 'label' %>
+            <label class="label">パスワード</label>
             <%= f.password_field :password %>
           </div>
           <div class="field">
-            <%= f.submit "Login",class:'submit' %>
+            <%= f.submit "ログイン", class:'submit' %>
           </div>
       <% end %>
     </div>
     <p>
-      <span class="or">or</span>
-      <%= link_to "SignUp", signup_path,class:'submit-link' %>
+      <span class="or">または</span>
+      <%= link_to "新規登録", signup_path, class:'submit-link' %>
     </p>
   </div>
 </div>

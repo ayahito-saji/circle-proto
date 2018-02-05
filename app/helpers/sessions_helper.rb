@@ -44,12 +44,4 @@ module SessionsHelper
       return
     end
   end
-
-  def login_title
-    if remember_room_token?
-      "Login to enter Room #{current_room_token}"
-    else
-      "Login"
-    end
-  end
 end
