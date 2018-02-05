@@ -35,7 +35,7 @@ class RoomsController < ApplicationController
       flash[:success] = "ルーム設定を正しく保存できました"
       redirect_to root_path
     else # 部屋の設定に失敗した場合、ルーム名がすでに使用されている
-      flash.now[:danger] = "ルーム名、パスワードが空白か、そのルーム名は既に使用されています"
+      flash.now[:danger] = "ルーム名、ルームキーが空白か、そのルーム名は既に使用されています"
       render 'edit'
     end
   end
