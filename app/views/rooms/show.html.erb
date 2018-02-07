@@ -1,5 +1,8 @@
 <h1>ルーム</h1>
 <p>アカウント:<%= link_to current_user.name, account_path %></p>
+<% if current_room.playing? %>
+    <p><%= link_to "現在のゲーム", root_path %></p>
+<% end %>
 <p><%= text_field :room, :url, value: "#{enter_url}?p=#{current_room.token}" %><br />
 <p>メンバー(<%= "#{current_room.users.count}" %><%= "/#{current_room.maximum}" if current_room.maximum != -1 %>):
 <ul>
@@ -17,6 +20,8 @@
     <p>この部屋は検索が許可されていません。許可する場合は、<%= link_to "ルーム設定", room_setting_path %>から変更してください。</p>
   <% end %>
 </p>
-<p><%= link_to "人狼ゲームスタート", play_start_path %></p>
+<% if !current_room.playing? %>
+    <p><%= link_to "人狼ゲームスタート", play_start_path %></p>
+<% end %>
 <p><%= link_to "ルーム設定", room_setting_path %></p>
 <p><%= link_to "退出", exit_path, method: :delete %></p>
