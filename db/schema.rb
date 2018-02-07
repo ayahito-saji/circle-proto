@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204093049) do
+ActiveRecord::Schema.define(version: 20180207002320) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "name"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20180204093049) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "allow_search", default: false
+    t.boolean "allow_enter", default: true
   end
 
   create_table "users", force: :cascade do |t|

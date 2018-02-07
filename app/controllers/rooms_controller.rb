@@ -8,8 +8,6 @@ class RoomsController < ApplicationController
   def create
     # 部屋を新規作成する（この時点でトークンも生成される）
     @room = Room.new
-    # プレミアム会員ならば最大人数-1(制限なし)にする
-    @room.maximum = -1 if current_user.premium?
     # ルームは検索許可が降りてないので、ルーム名とパスワードがnilでもOK
     @room.skip_search_validation = true
     if @room.save # ルームをセーブする

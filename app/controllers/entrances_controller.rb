@@ -20,7 +20,7 @@ class EntrancesController < ApplicationController
             redirect_to root_path
             return
           else # 入室失敗の原因は部屋が満員なので、その場合は部屋を探すビューをうつす
-            flash.now[:danger] = "ルームが満員です(7/7)"
+            flash.now[:danger] = "ルームに入ることができませんでした。ルームが満員(7/7)か、プレイ中です。"
           end
         else # 該当するトークンをもつ部屋が存在しない場合、部屋を探すビューをうつす
           flash.now[:danger] = "そのURLをもつルームが存在しません。"
@@ -43,7 +43,7 @@ class EntrancesController < ApplicationController
         redirect_to root_path
         return
       else# ルームに入れないときは満員なので、表示する
-        flash.now[:danger] = "ルームが満員です(7/7)"
+        flash.now[:danger] = "ルームに入ることができませんでした。ルームが満員(7/7)か、プレイ中です。"
       end
     else# ルームが存在しない、またはパスワードが間違っている場合エラーを吐く
       flash.now[:danger] = "該当するルーム名とルームキーをもつルームが存在しません。"

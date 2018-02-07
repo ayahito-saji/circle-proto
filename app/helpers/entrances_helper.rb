@@ -12,8 +12,9 @@ module EntrancesHelper
     if enter?
       exit
     end
-    if room.users.count < room.maximum || room.maximum == -1
+    if (room.users.count < room.maximum || room.maximum == -1 || current_user.premium?) && room.allow_enter?
       current_user.update_attribute(:room_id, room.id)
+      room.update_attribute(:maximum, -1) if current_user.premium?
       true
     else
       false
@@ -30,8 +31,15 @@ module EntrancesHelper
   def exit
     exit_room = current_room
     current_user.update_attribute(:room_id, nil)
-    if !exit_room.nil? && exit_room.users.count == 0
-      exit_room.destroy
+    if !exit_room.nil?
+      exit_room.update_attribute(:maximum, 7) if !exit_room.users.where(premium: true).exists?
+      if (!exit_room.users.exists? || !(exit_room.users.count <= exit_room.maximum || exit_room.maximum == -1))
+        RoomChannel.broadcast_to(exit_room.id, body: "プレミアムユーザーが抜けたため、この部屋は7人より多い人数で利用できません。", from: current_user.name)
+        exit_room.users.each do |user|
+          user.update_attribute(:room_id, nil)
+        end
+        exit_room.destroy
+      end
     end
     @current_room = nil
   end
