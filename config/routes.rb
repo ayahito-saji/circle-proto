@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "plays#edit"
+  root "plays#get"
 
   get "signup", to: "users#new"
   post "signup", to: "users#create"
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   get "enter", to: "entrances#show"
 
+  get "play/start", to: "plays#new"
   get "play/", to: "plays#get"
   post "play/", to: "plays#post"
 
