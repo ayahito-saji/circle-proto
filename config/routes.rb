@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "rooms#show"
+  root "plays#edit"
 
   get "signup", to: "users#new"
   post "signup", to: "users#create"
@@ -23,7 +23,8 @@ Rails.application.routes.draw do
 
   get "enter", to: "entrances#show"
 
-  get "play/title", to:"plays#new"
+  get "play/", to: "plays#get"
+  post "play/", to: "plays#post"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
