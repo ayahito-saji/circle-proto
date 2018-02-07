@@ -33,7 +33,9 @@ module EntrancesHelper
     current_user.update_attribute(:room_id, nil)
     if !exit_room.nil?
       exit_room.update_attribute(:maximum, 7) if !exit_room.users.where(premium: true).exists?
-      if (!exit_room.users.exists? || !(exit_room.users.count <= exit_room.maximum || exit_room.maximum == -1))
+      if !exit_room.users.exists?
+        exit_room.destroy
+      elsif exit_room.users.count <= exit_room.maximum || exit_room.maximum == -1
         RoomChannel.broadcast_to(exit_room.id, body: "プレミアムユーザーが抜けたため、この部屋は7人より多い人数で利用できません。", from: current_user.name)
         exit_room.users.each do |user|
           user.update_attribute(:room_id, nil)
