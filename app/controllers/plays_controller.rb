@@ -6,7 +6,8 @@ class PlaysController < ApplicationController
   def get
   end
   def post
-    render 'get'
+    get_data(params[:post_data], false)
+    redirect_to play_path
   end
   def new
     play_start

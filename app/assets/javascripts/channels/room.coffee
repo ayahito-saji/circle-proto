@@ -6,10 +6,7 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    if data["body"]["class"] == "redirect"
-      location.href = data["body"]["to"];
-    else
-      alert "To:Everyone\n" + data['body'] + "\nFrom:" + data['from']
+    get_data(data, true)
 
   client_post: (body) ->
     @perform 'server_get', body: body

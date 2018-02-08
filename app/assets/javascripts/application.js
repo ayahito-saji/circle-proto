@@ -16,3 +16,18 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require_tree .
+
+//JavaScriptサイド
+function get_data(data, action_cable){    //データをサーバーから受け取る(data = hash形式), ActionCableでもらったらtrueをもらう
+    if (data["body"]["class"] == "redirect")    //class:redirectの場合、指定されたリンクに飛ぶ
+        location.href = data["body"]["to"];
+    else
+        alert("To:Everyone\n" + data['body'] + "\nFrom:" + data['from']);
+}
+function post_data(data){   //hash形式をサーバーに送る。ActionCableで送れない場合、postしてreloadする。(getリクエストを送る)
+    if(!App.room.client_post(data)) {
+        $('#post_data').val(JSON.stringify(data));
+        $('#post_form').submit();
+    }
+}
+//クライアントサイドのインタプリタ（表示関数）の記述

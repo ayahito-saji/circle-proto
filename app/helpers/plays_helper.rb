@@ -33,4 +33,11 @@ module PlaysHelper
       return
     end
   end
+
+  def get_data(data, action_cable)
+    puts("DATA:#{data}")
+  end
+  def post_data(data)
+    RoomChannel.broadcast_to(current_user.room_id, body: data, from: current_user.name)
+  end
 end
