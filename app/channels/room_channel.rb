@@ -10,7 +10,7 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def server_get(arg)
-    get_data(arg['body'], false)
+    get_data(arg['body'], true)
   end
   #def server_post(data)
     # 部屋に入っている人全員につながる
