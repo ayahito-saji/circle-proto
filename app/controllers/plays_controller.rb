@@ -4,6 +4,7 @@ class PlaysController < ApplicationController
   before_action :require_playing, only: [:get, :post]
   before_action :reject_playing, only: [:new]
   def get
+    @html_code = play_view
   end
   def post
     get_data(params[:post_data], false)

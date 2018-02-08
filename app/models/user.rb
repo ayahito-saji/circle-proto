@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   before_save { self.email.downcase! }
+  serialize :var, Hash
   validates :name,
             presence: true,
             length:{maximum: 50}

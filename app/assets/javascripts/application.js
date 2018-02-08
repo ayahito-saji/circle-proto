@@ -21,6 +21,8 @@
 function get_data(data, action_cable){    //データをサーバーから受け取る(data = hash形式), ActionCableでもらったらtrueをもらう
     if (data["body"]["class"] == "redirect")    //class:redirectの場合、指定されたリンクに飛ぶ
         location.href = data["body"]["to"];
+    else if (data["body"]["class"] == "notification")
+        alert("全員OK押したで。")
     else
         alert("To:Everyone\n" + data['body'] + "\nFrom:" + data['from']);
 }

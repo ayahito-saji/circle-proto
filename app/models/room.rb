@@ -1,5 +1,6 @@
 class Room < ApplicationRecord
   attr_accessor :skip_search_validation
+  serialize :var, Hash
   has_secure_token
   has_many :users
   validates :name,

@@ -8,14 +8,8 @@ class RoomChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
-
+  # データをクライアントサイドから受け取って、PlaysHelper内のget_dataへ渡す
   def server_get(arg)
     get_data(arg['body'], true)
   end
-  #def server_post(data)
-    # 部屋に入っている人全員につながる
-    # ActionCable.server.broadcast 'room_channel', data: "BroadCast!"
-    # (current_user.room_id)に接続している人につながる
-    # RoomChannel.broadcast_to(current_user.room_id, body: data, from: current_user.name)
-  #end
 end

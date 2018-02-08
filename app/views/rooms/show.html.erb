@@ -6,8 +6,8 @@
 <p><%= text_field :room, :url, value: "#{enter_url}?p=#{current_room.token}" %><br />
 <p>メンバー(<%= "#{current_room.users.count}" %><%= "/#{current_room.maximum}" if current_room.maximum != -1 %>):
 <ul>
-  <% current_room.users.each do |user| %>
-      <li><%= user.name %></li>
+  <% current_room.users.order(:member_id).each do |user| %>
+      <li><%= user.name %>(<%= user.member_id %>)</li>
   <% end %>
 </ul>
 </p>

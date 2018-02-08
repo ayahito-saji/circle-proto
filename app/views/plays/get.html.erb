@@ -1,3 +1,4 @@
+<%= @html_code %>
 <%= link_to "ゲーム終了", play_end_path, method: :delete %>
 <%= form_tag play_path, method: :post, id: :post_form do |f| %>
   <%= text_area_tag :post_data, '', style: "display: none" %>
