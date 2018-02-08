@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180207052347) do
+ActiveRecord::Schema.define(version: 20180208093520) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "name"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20180207052347) do
     t.datetime "updated_at", null: false
     t.boolean "premium", default: false
     t.string "remember_digest"
+    t.integer "member_id"
   end
 
 end

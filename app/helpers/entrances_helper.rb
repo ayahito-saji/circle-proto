@@ -14,6 +14,7 @@ module EntrancesHelper
     end
     if (room.users.count < room.maximum || room.maximum == -1 || current_user.premium?) && room.allow_enter?
       current_user.update_attribute(:room_id, room.id)
+      current_user.update_attribute(:member_id, room.users.count - 1)
       room.update_attribute(:maximum, -1) if current_user.premium?
       true
     else
@@ -41,6 +42,10 @@ module EntrancesHelper
           user.update_attribute(:room_id, nil)
         end
         exit_room.destroy
+      else
+        exit_room.users.order(:member_id).each_with_index do |user, i|
+          user.update_attribute(:member_id, i)
+        end
       end
     end
     @current_room = nil
