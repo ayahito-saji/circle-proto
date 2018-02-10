@@ -17,7 +17,6 @@ module PlaysHelper
     end
 
     # プレイ開始したので、全員play画面に移行する
-    RoomChannel.broadcast_to(current_user.room_id, body: {class: "redirect", to: root_path}, from: current_user.name)
   end
   # プレイ強制終了する時に呼び出される
   def play_end
@@ -26,7 +25,6 @@ module PlaysHelper
     current_room.update_attributes(allow_enter: true, playing: false)
 
     # プレイ終了したので、全員room画面に移行する
-    RoomChannel.broadcast_to(current_user.room_id, body: {class: "redirect", to: room_path}, from: current_user.name)
   end
 
   def play_view # プレイ開始時または再読み込み、再アクセスした際に呼び出される
@@ -59,7 +57,6 @@ module PlaysHelper
     end
   end
   def post_data(data) # サーバーからデータを全員に通知したい場合に呼び出す
-    RoomChannel.broadcast_to(current_user.room_id, body: data, from: current_user.name)
   end
 end
 
