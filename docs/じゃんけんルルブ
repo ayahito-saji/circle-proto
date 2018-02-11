@@ -1,62 +1,45 @@
 phase title{
-    // じゃんけんカウントを0にする
-    common.count = 0;
+    if (my.id == 0) common.count = 0;
     print("じゃんけん");
     input();
+    goto(action);
 }
-phase action{
-    //IDが0の人がカウントを１だけ加える
-    if (my.id == 0){
-        common.count ++;
-    }
 
-    //全員じゃんけんの手を決める
+phase action{
+    if (my.id == 0) common.count ++;
     print("#{common.count}回目です。")
     selector = new Selector('hand');
-    selector.app_option('ぐー', 'g');
-    selector.app_option('ちょき', 'c');
-    selector.app_option('ぱー', 'p');
+    selector.add_option('グー', 'rock');
+    selector.add_option('チョキ', 'scissors');
+    selector.add_option('パー', 'paper');
     result = input();
     my.hand = result['hand'];
+    goto(result);
 }
-phase result{
-    //IDが0の人が審判役をやる
+phase result(){
     if (my.id == 0){
-        //グーを出したユーザーが存在するか調べる
-        g_exists = members.where(hand == 'g').exists?;
-        //チョキを出したユーザーが存在するか調べる
-        c_exists = members.where(hand == 'c').exists?;
-        //パーを出したユーザーが存在するか調べる
-        p_exists = members.where(hand == 'p').exists?;
-
-        //買った手と負けた手を設定する(引き分けの場合はnull)
+        rock_exists = members.where(hand == 'rock').exists?;
+        scissor_exists = members.where(hand == 'scissor').exists?;
+        paper_exists = members.where(hand == 'paper').exists?;
         common.winner_hand = null;
         common.loser_hand = null;
-        if ((g_exists == false)&&(c_exists == true)&&(p_exists == true)){
-            common.winner_hand = 'c';
-            common.loser_hand = 'p';
-        }else if ((g_exists == true)&&(c_exists == false)&&(p_exists == true)){
-            common.winner_hand = 'p';
-            common.loser_hand = 'g';
-        }else if ((g_exists == true)&&(c_exists == true)&&(p_exists == false)){
-            common.winner_hand = 'g';
-            common.loser_hand = 'c';
+        if ((rock_exists == false)&&(scissor_exists == true)&&(paper_exists == true)){
+            common.winner_hand = 'scissor';
+            common.loser_hand = 'paper';
+        }else if ((rock_exists == true)&&(scissor_exists == false)&&(paper_exists == true)){
+            common.winner_hand = 'paper';
+            common.loser_hand = 'rock';
+        }else if ((rock_exists == true)&&(scissor_exists == true)&&(paper_exists == false)){
+            common.winner_hand = 'rock';
+            common.loser_hand = 'scissor';
         }
-
-        //計算が終了したら、全員にそう伝える
-        a_notification("CALC_END");
+        broadcast_notification("CALC_END");
     }else{
-        //計算の終了を待つ
         wait_notification("CALC_END");
     }
-    if (my.hand == common.winner_hand){
-        print("あなたは勝ちです");
-    }else if (my.hand == common.loser_hand){
-        print("あなたは負けです");
-    }else{
-        print("あなたは引き分けです");
-    }
+    if (my.hand == common.winner_hand) print("あなたは勝ちです");
+    else if (my.hand == common.loser_hand) print("あなたは負けです");
+    else print("あなたは引き分けです");
     input();
-}
-
+    goto(action);
 }
