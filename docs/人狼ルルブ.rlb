@@ -1,0 +1,41 @@
+phase title{
+    print("何時は人狼なりや？");
+    input();
+    goto set_class;
+}
+
+phase set_class{
+    if (MEMBER_ID == 0){
+        deck = new Deck();
+        deck.add_card('人狼');
+        deck.shuffle();
+        deck.distribute('CLASS_CARD', false);
+    }else{
+        you.job = receive('CLASS_CARD');
+    }
+    print("あなたは#{you.job}です。");
+    input();
+    goto night;
+
+}
+phase night{
+    if (you.are == 'werewolf'){
+        selector = new Selector('target');
+        for (member in MEMBERS){
+            if ((member.alive == true) && (member.job != 'werewolf')){
+                selector.add_option(member.name, member);
+            }
+        }
+        result = input();
+
+    }else{
+        input();
+    }
+}
+function kill(target){
+    target.alive = false;
+    return;
+}
+phase mooning{
+    print("昨晩の犠牲者は#{dead.name}でした。");
+}
