@@ -16,7 +16,7 @@ class EntrancesController < ApplicationController
           end
           # そうでないなら入室しようとする。
           if enter room
-            RoomChannel.broadcast_to(current_user.room_id, body: "Entered", from: current_user.name)
+            #RoomChannel.broadcast_to(current_user.room_id, body: "Entered", from: current_user.name)
             redirect_to root_path
             return
           else # 入室失敗の原因は部屋が満員なので、その場合は部屋を探すビューをうつす
@@ -39,7 +39,7 @@ class EntrancesController < ApplicationController
     #ルームが存在して、かつルームパスワードが一致した場合、入室を試みる
     if !room.nil? && room.password == enter_params[:password]
       if enter room
-        RoomChannel.broadcast_to(current_user.room_id, body: "Entered", from: current_user.name)
+        #RoomChannel.broadcast_to(current_user.room_id, body: "Entered", from: current_user.name)
         redirect_to root_path
         return
       else# ルームに入れないときは満員なので、表示する
@@ -55,7 +55,7 @@ class EntrancesController < ApplicationController
   end
 
   def destroy
-    RoomChannel.broadcast_to(current_user.room_id, body: "Exited", from: current_user.name)
+    #RoomChannel.broadcast_to(current_user.room_id, body: "Exited", from: current_user.name)
     exit
     redirect_to root_path
   end
