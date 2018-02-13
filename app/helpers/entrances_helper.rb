@@ -16,6 +16,20 @@ module EntrancesHelper
       current_user.update_attribute(:room_id, room.id)
       current_user.update_attribute(:member_id, room.users.count - 1)
       room.update_attribute(:maximum, -1) if current_user.premium?
+      broadcast_to_room(current_room,
+                        {
+                            class:'notification',
+                            code:'entered',
+                            user:{
+                                id: current_user.id,
+                                name:current_user.name,
+                                member_id: current_user.member_id,
+                                is_premium: current_user.premium?
+                            },
+                            room:{
+                                maximum:current_room.maximum
+                            }
+                        }, except: [current_user])
       true
     else
       false
@@ -46,6 +60,17 @@ module EntrancesHelper
         exit_room.users.order(:member_id).each_with_index do |user, i|
           user.update_attribute(:member_id, i)
         end
+        broadcast_to_room(current_room,
+                          {
+                              class:'notification',
+                              code:'exited',
+                              user:{
+                                  id: current_user.id
+                              },
+                              room:{
+                                  maximum:current_room.maximum
+                              }
+                          }, except: [current_user])
       end
     end
     @current_room = nil

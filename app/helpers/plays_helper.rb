@@ -13,7 +13,7 @@ module PlaysHelper
     current_room.update_attribute(:var, var)
     # 全員行動済みをfalseにする
     current_room.users.each do |user|
-      user.update_attribute(:actioned, false)
+      user.update_attributes(actioned: false)
     end
 
     # プレイ開始したので、全員play画面に移行する
@@ -25,8 +25,13 @@ module PlaysHelper
     current_room.skip_search_validation = true
     current_room.update_attributes(allow_enter: true, playing: false)
 
+    # 全員行動済みをfalseにする
+    current_room.users.each do |user|
+      user.update_attributes(actioned: false)
+    end
+
     # プレイ終了したので、全員room画面に移行する
-    broadcast_to_room(current_room, {class: 'redirect', to: room_path}, except: [current_user])
+    broadcast_to_room(current_room, {class: 'redirect', to: root_path}, except: [current_user])
   end
 
   def play_view # プレイ開始時または再読み込み、再アクセスした際に呼び出される
@@ -46,16 +51,27 @@ module PlaysHelper
   def get_data(data)
     puts("DATA:#{data} FROM:#{current_user.name}")
     if data['class'] == 'input'
-      puts(current_user)
-      puts("BEFORE ATTRIBUTE#{current_user.actioned?}")
-      puts(current_user.update_attribute(:actioned, true))
-      puts("AFTER ATTRIBUTE#{current_user.actioned?}")
+      puts(current_user.update_attributes(actioned: true))
 
-      #if !current_room.users.where(actioned: false).exists?
-        #broadcast_to_room(current_room,{'class': 'notification', 'code': 'all_submitted', member_id: current_user.member_id})
-      #else
-        #broadcast_to_room(current_room,{'class': 'notification', 'code': 'any_submitted', 'member_id': current_user.member_id})
-      #end
+      if !current_room.users.where(actioned: false).exists?
+        broadcast_to_room(current_room,
+                          {
+                              class: 'notification',
+                              code: 'all_inputted',
+                              user:{
+                                  member_id: current_user.member_id
+                              }
+                          })
+      else
+        broadcast_to_room(current_room,
+                          {
+                              class: 'notification',
+                              code: 'any_inputted',
+                              user:{
+                                  member_id: current_user.member_id
+                              }
+                          })
+      end
     end
   end
 

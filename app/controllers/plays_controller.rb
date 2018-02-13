@@ -1,9 +1,9 @@
 class PlaysController < ApplicationController
-  before_action :require_login, only: [:new, :get, :post]
-  before_action :require_enter, only: [:new, :get, :post]
-  before_action :require_playing, only: [:get, :post]
+  before_action :require_login, only: [:new, :show, :post]
+  before_action :require_enter, only: [:new, :show, :post]
+  before_action :require_playing, only: [:show, :post]
   before_action :reject_playing, only: [:new]
-  def get
+  def show
     @html_code = play_view
   end
   def new

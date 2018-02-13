@@ -3,23 +3,14 @@
 <% if current_room.playing? %>
     <p><%= link_to "現在のゲーム", root_path %></p>
 <% end %>
-<p><%= text_field :room, :url, value: "#{enter_url}?p=#{current_room.token}" %><br />
-<p>メンバー(<%= "#{current_room.users.count}" %><%= "/#{current_room.maximum}" if current_room.maximum != -1 %>):
-<ul>
-  <% current_room.users.order(:member_id).each do |user| %>
-      <li><%= user.name %>(<%= user.member_id %>)</li>
-  <% end %>
-</ul>
-</p>
 <p>
-  <% if current_room.allow_search %>
-    <p>この部屋は検索が許可されています。</p>
-    <p>ルーム名:<%= current_room.name %></p>
-    <p>ルームキー:<%= current_room.password %></p>
-  <% else %>
-    <p>この部屋は検索が許可されていません。許可する場合は、<%= link_to "ルーム設定", room_setting_path %>から変更してください。</p>
-  <% end %>
+  <input type="text" value="<%= "#{enter_url}?p=#{current_room.token}" %>" id="room_url_text" data-room-url="<%= "#{enter_url}?p=#{current_room.token}" %>" onfocus="select_room_url()">
+  <input type="button" value="URLをコピー" onclick="copy_room_url()">
+  <br/>
+  <%= link_to "URLをLINEで共有", "http://line.me/R/msg/text/?ルームに入室する[#{enter_url}?p=#{current_room.token}]", target:'_blank', rel:'noopener' %>
 </p>
+<p id="members_list"></p>
+<p id="allow_search"></p>
 <% if !current_room.playing? %>
     <p><%= link_to "人狼ゲームスタート", play_start_path %></p>
 <% end %>
