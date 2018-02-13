@@ -4,7 +4,7 @@ module SessionsHelper
     remember_cookie
   end
   def login?
-    if current_user.nil? && current_user.cookie_authenticated?(cookies[:remember_token])
+    if !current_user.nil? && current_user.cookie_authenticated?(cookies[:remember_token])
       true
     else
       logout
