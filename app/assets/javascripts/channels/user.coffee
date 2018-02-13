@@ -5,7 +5,8 @@ App.user = App.cable.subscriptions.create "UserChannel",
 
   disconnected: ->
     # Called when the subscription has been terminated by the server
-    location.reload();
+    if $("body").attr("data-controller") == "rooms" || $("body").attr("data-controller") == "plays"
+      location.reload();
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
