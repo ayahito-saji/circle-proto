@@ -4,7 +4,7 @@
     <p><%= link_to "現在のゲーム", root_path %></p>
 <% end %>
 <p>
-  <input type="text" value="<%= "#{enter_url}?p=#{current_room.token}" %>" id="room_url_text" data-room-url="<%= "#{enter_url}?p=#{current_room.token}" %>" onfocus="select_room_url()">
+  <input type="text" value="<%= "#{enter_url}?p=#{current_room.token}" %>" id="room_url_text" data-room-url="<%= "#{enter_url}?p=#{current_room.token}" %>" readonly onfocus="select_room_url()">
   <input type="button" value="URLをコピー" onclick="copy_room_url()">
   <br/>
   <%= link_to "URLをLINEで共有", "http://line.me/R/msg/text/?ルームに入室する[#{enter_url}?p=#{current_room.token}]", target:'_blank', rel:'noopener' %>
