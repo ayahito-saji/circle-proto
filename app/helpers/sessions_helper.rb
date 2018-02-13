@@ -12,7 +12,7 @@ module SessionsHelper
     end
   end
   def logout
-    forget_cookie
+    forget_cookie if !current_user.nil?
     session.delete(:user_id)
     @current_user = nil
   end
