@@ -7,7 +7,7 @@ App.user = App.cable.subscriptions.create "UserChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    alert "USER CABLE:"+data
+    get_data(data, true)
 
   write: (data) ->
-    @perform 'read', data: data
+    @perform 'read', data

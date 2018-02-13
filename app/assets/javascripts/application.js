@@ -17,19 +17,13 @@
 //= require bootstrap-sprockets
 //= require_tree .
 
-//JavaScriptサイド
-function get_data(data, action_cable){    //データをサーバーから受け取る(data = hash形式), ActionCableでもらったらtrueをもらう
-    if (data["body"]["class"] == "redirect")    //class:redirectの場合、指定されたリンクに飛ぶ
-        location.href = data["body"]["to"];
-    else if (data["body"]["class"] == "notification")
-        alert("全員OK押したで。")
+function get_data(data, action_cable){
+    if (data["class"] == "redirect")
+        location.href = data["to"];
     else
-        alert("To:Everyone\n" + data['body'] + "\nFrom:" + data['from']);
+        console.log(data);
 }
-function post_data(data){   //hash形式をサーバーに送る。ActionCableで送れない場合、postしてreloadする。(getリクエストを送る)
-    if(!App.room.client_post(data)) {
-        $('#post_data').val(JSON.stringify(data));
-        $('#post_form').submit();
-    }
+
+function done(){
+    App.user.write({"class": "input"})
 }
-//クライアントサイドのインタプリタ（表示関数）の記述

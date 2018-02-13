@@ -1,4 +1,7 @@
 class UserChannel < ApplicationCable::Channel
+  include PlaysHelper
+  include EntrancesHelper
+  include RoomsHelper
   def subscribed
     stream_for current_user
   end
@@ -8,17 +11,7 @@ class UserChannel < ApplicationCable::Channel
   end
 
   # クライアントから読み込んだデータ(params)
-  def read(params)
-    UserChannel.broadcast_to(current_user, params['data'])
-  end
-
-  # ルーム全員にブロードキャストする(except: []で例外を指定できる)
-  def broadcast_to_room(room, data, **option)
-    room.users.each do |user|
-      if !option[:except] || !option[:except].include?(user)
-        puts(user)
-        UserChannel.broadcast_to(user, data)
-      end
-    end
+  def read(data)
+    get_data(data)
   end
 end
