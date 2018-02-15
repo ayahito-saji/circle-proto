@@ -1,4 +1,4 @@
-App.user = App.cable.subscriptions.create "UserChannel",
+App.room = App.cable.subscriptions.create "RoomChannel",
   connected: ->
     # Called when the subscription is ready for use on the server
 
@@ -9,4 +9,8 @@ App.user = App.cable.subscriptions.create "UserChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    ac_received(data)
+    if !(typeof(data.except) != "undefined" and data.except.indexOf(current_user.member_id) != -1)
+      ac_received(data)
+
+  write: (data) ->
+    @perform 'read', data

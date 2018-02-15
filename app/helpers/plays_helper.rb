@@ -7,8 +7,9 @@ module PlaysHelper
     # コモン変数の初期化
     var = {
         system: {
-            status: 'title'
+            phase: 'title'
         }
+
     }
     current_room.update_attribute(:var, var)
     # 全員行動済みをfalseにする
@@ -17,7 +18,13 @@ module PlaysHelper
     end
 
     # プレイ開始したので、全員play画面に移行する
-    broadcast_to_room(current_room, {class: 'redirect', to: root_path}, except: [current_user])
+    RoomChannel.broadcast_to(current_room,
+                             {
+                                 class: 'redirect',
+                                 to: root_path,
+                                 from: current_user.member_id,
+                                 except: [current_user.member_id]
+                             })
   end
   # プレイ強制終了する時に呼び出される
   def play_end
@@ -25,36 +32,28 @@ module PlaysHelper
     current_room.skip_search_validation = true
     current_room.update_attributes(allow_enter: true, playing: false)
 
-    # 全員行動済みをfalseにする
+    # 全員行動済みをtrueにする
     current_room.users.each do |user|
       user.update_attributes(actioned: false)
     end
 
     # プレイ終了したので、全員room画面に移行する
-    broadcast_to_room(current_room, {class: 'redirect', to: root_path}, except: [current_user])
+    RoomChannel.broadcast_to(current_room,
+                             {
+                                 class: 'redirect',
+                                 to: room_path,
+                                 from: current_user.member_id,
+                                 except: [current_user.member_id]
+                             })
   end
 
-  def play_view # プレイ開始時または再読み込み、再アクセスした際に呼び出される
-    html_code = ""
-    cmn_var = current_room.var
-
-    if cmn_var[:system][:status] == 'title'
-      html_code = "<h1>人狼ゲームはっじまるよー</h1>"
-      if !current_user.actioned?
-        html_code += "<p><a href='javascript:void(0)' onclick=\"done(),$('#link').hide()\" id='link'>Start</a></p>"
-      end
-    end
-
-    #表示するHTMLコードを返す
-    html_code.html_safe
-  end
   def get_data(data)
     puts("DATA:#{data} FROM:#{current_user.name}")
     if data['class'] == 'input'
-      puts(current_user.update_attributes(actioned: true))
+      current_user.update_attributes(actioned: true)
 
       if !current_room.users.where(actioned: false).exists?
-        broadcast_to_room(current_room,
+        RoomChannel.broadcast_to(current_room,
                           {
                               class: 'notification',
                               code: 'all_inputted',
@@ -63,7 +62,7 @@ module PlaysHelper
                               }
                           })
       else
-        broadcast_to_room(current_room,
+        RoomChannel.broadcast_to(current_room,
                           {
                               class: 'notification',
                               code: 'any_inputted',

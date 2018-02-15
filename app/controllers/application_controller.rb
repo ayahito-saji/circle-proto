@@ -4,4 +4,5 @@ class ApplicationController < ActionController::Base
   include EntrancesHelper
   include PlaysHelper
   include RoomsHelper
+  include UsersHelper
 end

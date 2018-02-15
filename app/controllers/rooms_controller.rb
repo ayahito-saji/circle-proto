@@ -21,19 +21,8 @@ class RoomsController < ApplicationController
 
   # 部屋を表示する
   def show
-    gon.room = {
-        users: current_room.users.order(:member_id).map { |member|
-          {
-              id: member.id,
-              name: member.name,
-              is_premium: member.premium?
-          }
-        },
-        name: current_room.name,
-        password: current_room.password,
-        allow_search: current_room.allow_search?,
-        maximum: current_room.maximum
-    }
+    send_current_room_to_front
+    send_current_user_to_front
   end
 
   # 部屋の設定する
@@ -44,16 +33,17 @@ class RoomsController < ApplicationController
     current_room.skip_search_validation = room_params[:allow_search].to_i.zero?
     if current_room.update_attributes(room_params)
       flash[:success] = "ルーム設定を正しく保存できました"
-      broadcast_to_room(current_room,
-                        {
-                            class: 'notification',
-                            code: 'room_updated',
-                            room: {
-                                name: current_room.name,
-                                password: current_room.password,
-                                allow_search: current_room.allow_search?
-                            }
-                        }, except: [current_user])
+      RoomChannel.broadcast_to(current_room,
+                               {
+                                   class: 'notification',
+                                   code: 'room_updated',
+                                   room: {
+                                       name: current_room.name,
+                                       password: current_room.password,
+                                       allow_search: current_room.allow_search?
+                                   },
+                                   except: [current_user.id]
+                               })
       redirect_to root_path
     else # 部屋の設定に失敗した場合、ルーム名がすでに使用されている
       flash.now[:danger] = "ルーム名、ルームキーが空白か、そのルーム名は既に使用されています"

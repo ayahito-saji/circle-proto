@@ -4,7 +4,8 @@ class PlaysController < ApplicationController
   before_action :require_playing, only: [:show, :post]
   before_action :reject_playing, only: [:new]
   def show
-    @html_code = play_view
+    send_current_room_to_front
+    send_current_user_to_front
   end
   def new
     play_start
