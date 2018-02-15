@@ -1,6 +1,9 @@
 module PlaysHelper
   def play_start
     # プレイ開始
+    if current_room.playing? == true
+      return
+    end
     current_room.skip_search_validation = true
     current_room.update_attributes(allow_enter: false, playing: true)
 
@@ -9,7 +12,6 @@ module PlaysHelper
         system: {
             phase: 'title'
         }
-
     }
     current_room.update_attribute(:var, var)
     # 全員行動済みをfalseにする
@@ -28,6 +30,9 @@ module PlaysHelper
   end
   # プレイ強制終了する時に呼び出される
   def play_end
+    if current_room.playing? == false
+      return
+    end
     # プレイ終了
     current_room.skip_search_validation = true
     current_room.update_attributes(allow_enter: true, playing: false)
@@ -54,22 +59,22 @@ module PlaysHelper
 
       if !current_room.users.where(actioned: false).exists?
         RoomChannel.broadcast_to(current_room,
-                          {
-                              class: 'notification',
-                              code: 'all_inputted',
-                              user:{
-                                  member_id: current_user.member_id
-                              }
-                          })
+                                 {
+                                     class: 'notification',
+                                     code: 'all_inputted',
+                                     user:{
+                                         member_id: current_user.member_id
+                                     }
+                                 })
       else
         RoomChannel.broadcast_to(current_room,
-                          {
-                              class: 'notification',
-                              code: 'any_inputted',
-                              user:{
-                                  member_id: current_user.member_id
-                              }
-                          })
+                                 {
+                                     class: 'notification',
+                                     code: 'any_inputted',
+                                     user:{
+                                         member_id: current_user.member_id
+                                     }
+                                 })
       end
     end
   end
