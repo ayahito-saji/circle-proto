@@ -18,18 +18,8 @@ module EntrancesHelper
       room.update_attribute(:maximum, -1) if current_user.premium?
       RoomChannel.broadcast_to(current_room,
                         {
-                            class:'notification',
-                            code:'entered',
-                            user:{
-                                id: current_user.id,
-                                name:current_user.name,
-                                member_id: current_user.member_id,
-                                is_premium: current_user.premium?
-                            },
-                            room:{
-                                maximum:current_room.maximum
-                            },
-                            except: [current_user.member_id]
+                            except: [current_user.member_id],
+                            code: "alert('#{current_user.name}が入室しました');"
                         })
       true
     else
@@ -62,17 +52,10 @@ module EntrancesHelper
           user.update_attribute(:member_id, i)
         end
         RoomChannel.broadcast_to(current_room,
-                          {
-                              class:'notification',
-                              code:'exited',
-                              user:{
-                                  id: current_user.id
-                              },
-                              room:{
-                                  maximum:current_room.maximum
-                              },
-                              except: [current_user.member_id]
-                          })
+                                 {
+                                     except: [current_user.member_id],
+                                     code: "alert('#{current_user.name}が退出しました')"
+                                 })
       end
     end
     @current_room = nil

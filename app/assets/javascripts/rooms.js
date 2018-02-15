@@ -1,3 +1,5 @@
+/*
+
 //メンバー一覧表示
 function members_list_view(){
     if(current_room == null) return;
@@ -24,6 +26,7 @@ function allow_search_view(){
     }
     $("#allow_search").html(code);
 }
+*/
 
 //URLをコピー
 function copy_room_url(){

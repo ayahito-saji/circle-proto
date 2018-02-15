@@ -4,8 +4,7 @@ class PlaysController < ApplicationController
   before_action :require_playing, only: [:show, :post]
   before_action :reject_playing, only: [:new]
   def show
-    send_current_room_to_front
-    send_current_user_to_front
+    gon.member_id = current_user.member_id
   end
   def new
     play_start

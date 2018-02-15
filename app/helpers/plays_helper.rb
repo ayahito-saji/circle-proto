@@ -22,9 +22,7 @@ module PlaysHelper
     # プレイ開始したので、全員play画面に移行する
     RoomChannel.broadcast_to(current_room,
                              {
-                                 class: 'redirect',
-                                 to: root_path,
-                                 from: current_user.member_id,
+                                 code: "location.href = '#{root_path}';",
                                  except: [current_user.member_id]
                              })
   end
@@ -45,9 +43,7 @@ module PlaysHelper
     # プレイ終了したので、全員room画面に移行する
     RoomChannel.broadcast_to(current_room,
                              {
-                                 class: 'redirect',
-                                 to: room_path,
-                                 from: current_user.member_id,
+                                 code: "location.href = '#{room_path}';",
                                  except: [current_user.member_id]
                              })
   end
@@ -56,26 +52,10 @@ module PlaysHelper
     puts("DATA:#{data} FROM:#{current_user.name}")
     if data['class'] == 'input'
       current_user.update_attributes(actioned: true)
-
-      if !current_room.users.where(actioned: false).exists?
         RoomChannel.broadcast_to(current_room,
                                  {
-                                     class: 'notification',
-                                     code: 'all_inputted',
-                                     user:{
-                                         member_id: current_user.member_id
-                                     }
+                                     code: "alert('#{current_user.name}が入力しました')"
                                  })
-      else
-        RoomChannel.broadcast_to(current_room,
-                                 {
-                                     class: 'notification',
-                                     code: 'any_inputted',
-                                     user:{
-                                         member_id: current_user.member_id
-                                     }
-                                 })
-      end
     end
   end
 
