@@ -7,7 +7,7 @@
   font-family: "游ゴシック", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
   color: #4f4f4f;
 
-  font-size: calc(12px + 0.25vw)
+  font-size: calc(12px + 0.20vw)
 }
 .line{
   display: inline-block;
@@ -52,7 +52,7 @@ form{
       -webkit-border-radius: 3em;
       -moz-border-radius: 3em;
       border-radius: 3em;
-      padding :1em 3em;
+      padding :0.75em 3em;
       transition-duration: 0.5s;
       border: none;
       text-decoration: none;

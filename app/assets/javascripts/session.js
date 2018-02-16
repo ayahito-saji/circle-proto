@@ -4,19 +4,25 @@ $(document).on('turbolinks:load', function(){
         var match = location.search.match(/a=(.*?)(&|$)/);
         if(match) animation = decodeURIComponent(match[1]);
         if(animation != 'none'){
+            $('.title-inner').css('top', '60%');
+            $('.title-inner').css('opacity', '0');
+            $('.title-outer').css('width', '100%');
+            $('.body-outer').css('top', '10%');
+            $('.body-outer').css('opacity', '0');
+
             $('.title-inner').animate({
-                'top': '50vh',
+                'top': '50%',
                 'opacity': '1'
             }, {
                 'duration': 500,
                 'done': function(){
                     $('.title-outer').delay(1000).animate({
-                        'width': '50vw'
+                        'width': '50%'
                     }, {
                         'duration': 1000,
                         'done': function(){
                             $('.body-outer').animate({
-                                'top': '0vh',
+                                'top': '0%',
                                 'opacity': '1'
                             }, {
                                 'duration': 1000
