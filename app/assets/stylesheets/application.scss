@@ -3,6 +3,9 @@
 @import "users.scss";
 @import "plays.scss";
 
+html, body{
+  height: 100%;
+}
 * {
   font-family: "游ゴシック", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
   color: #4f4f4f;
@@ -44,7 +47,7 @@ form{
     }
   }
   .button-field{
-    margin: 1em 3em;
+    margin: 1em 0em;
     .button {
       display: inline-block;
       color: white;
