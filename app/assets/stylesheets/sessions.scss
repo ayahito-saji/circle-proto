@@ -1,4 +1,4 @@
-@media screen and (orientation: landscape){
+@media screen and (orientation: landscape) and (min-width: 480px){
   .body{
     position: relative;
     width: 100%;
@@ -54,17 +54,34 @@
         transform: translateY(-50%) translateX(-50%);
         -webkit-transform: translateY(-50%) translateX(-50%);
       }
+      .copyright{
+        display: none;
+      }
     }
   }
 }
-@media screen and (orientation: portrait){
-  .login{
-    background: #eeeeee;
+@media screen and (max-width: 479px){
+  .body{
     .title-outer{
-      background: #ffdddd;
+      width: 100%;
+      padding: 3em 10vw 1em 30vw;
+      background: linear-gradient(135deg, #FCF1EC, #FDF7EE, #FFFEF5, #FFFEF5, #F2F5FA, #F2F0F6, #F7F2F8);
+      .title-inner{
+        text-align: center;
+      }
+      .copyright{
+        display: none;
+      }
     }
     .body-outer{
-      background: #ddddff;
+      width: 100%;
+      padding: 2em;
+      .body-inner{
+        text-align: center;
+      }
+      .copyright{
+        text-align: center;
+      }
     }
   }
 }

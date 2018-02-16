@@ -4,9 +4,7 @@
       集まれば、遊べる。
       <%= image_tag("circle1_color_gradation.svg", class: 'logo_image', alt: 'CIRCLE') %>
     </div>
-    <div class="copyright">
-      Presented by <a href="https://twitter.com/esoracanvas">esoracanvas</a>
-    </div>
+    <%= render 'layouts/copyright'%>
   </div>
   <div class="body-outer">
     <div class="body-inner">
@@ -42,5 +40,6 @@
           </div>
       <% end %>
     </div>
+    <%= render 'layouts/copyright'%>
   </div>
 </div>
