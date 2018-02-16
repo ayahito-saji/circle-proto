@@ -1,30 +1,35 @@
-<div id="login">
-  <div class="window-left container">
-    <div class="window-left-content row">
-      <%= image_tag("circle1_color_gradation.svg", class: 'col-12') %>
+<div class="body">
+    <div class="title-outer">
+      <div class="title-inner">
+        集まれば、遊べる。
+        <%= image_tag("circle1_color_gradation.svg", class: 'logo_image', alt: 'CIRCLE') %>
+      </div>
+      <div class="copyright">
+        Presented by <a href="https://twitter.com/esoracanvas">esoracanvas</a>
+      </div>
     </div>
-  </div>
-  <div class="window-right col-md-6 col-12">
-    <h1>ログイン</h1>
-    <span class="line"></span>
-    <div class="form">
-      <%= form_for :session, url: append_query(login_path, p: params[:p]) do |f| %>
-          <div class="field">
-            <label class="label">メールアドレス</label>
-            <%= f.email_field :email %>
-          </div>
-          <div class="field">
-            <label class="label">パスワード</label>
-            <%= f.password_field :password %>
-          </div>
-          <div class="field">
-            <%= f.submit "ログイン", class:'submit' %>
-          </div>
-      <% end %>
+    <div class="body-outer">
+      <div class="body-inner">
+        <h3>ログイン</h3>
+        <span class="line"></span>
+        <%= form_for :session, url: append_query(login_path, p: params[:p]), method: :post, html:{id:'login-form'} do |f| %>
+            <div class="field">
+              <%= f.email_field :email, class:'dynamic-label-input form-control', placeholder:'メールアドレス' %>
+              <label for="dynamic-label-input">メールアドレス</label>
+              <span class="help-text"></span>
+              <div class="text-danger help-text"></div>
+            </div>
+            <div class="field">
+              <%= f.password_field :password, class:'dynamic-label-input form-control', placeholder:'パスワード' %>
+              <label for="dynamic-label-input">パスワード</label>
+              <div class="text-danger help-text"></div>
+            </div>
+            <div class="button-field">
+              <a href="javascript:void(0)" onclick="$('#login-form').submit();return false;" class="button">ログイン</a>
+            <div class="or">or</div>
+              <%= link_to "新規登録", append_query(signup_path, p: params[:p], a: 'none'), class:'button' %>
+            </div>
+        <% end %>
+      </div>
     </div>
-    <p>
-      <span class="or">または</span>
-      <%= link_to "新規登録", append_query(signup_path, p: params[:p]), class:'submit-link' %>
-    </p>
-  </div>
 </div>

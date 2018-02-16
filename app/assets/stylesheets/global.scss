@@ -15,7 +15,8 @@
     background: linear-gradient(#E6987C,#E7B296);
     border-radius: 3em;
     padding: 1em 5em;
-    transition-duration: 0.5s;
+    opacity: 1;
+    transition-duration: 1s;
     border: none;
     &:hover{
       cursor: pointer;

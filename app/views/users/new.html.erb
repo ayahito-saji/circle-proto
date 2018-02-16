@@ -1,46 +1,46 @@
-<div id="signup">
-  <div class="window-left col-md-6 col-12">
-    <span class="catch-copy">集まれば、遊べる。</span>
-    <%= image_tag("circle1_color_gradation.svg") %>
+<div class="body">
+  <div class="title-outer">
+    <div class="title-inner">
+      集まれば、遊べる。
+      <%= image_tag("circle1_color_gradation.svg", class: 'logo_image', alt: 'CIRCLE') %>
+    </div>
+    <div class="copyright">
+      Presented by <a href="https://twitter.com/esoracanvas">esoracanvas</a>
+    </div>
   </div>
-  <div class="window-right col-md-6 col-12">
-    <h1>新規登録</h1>
-    <span class="line"></span>
-    <%= form_for @user, url: append_query(signup_path, p: params[:p]) do |f| %>
-        <% if @user.errors.any? %>
-            <div id="error_explanation">
-              <div class="alert alert-danger">
-                The form contains <%= pluralize(@user.errors.count, "error") %>.
-              </div>
-              <ul>
-                <% @user.errors.full_messages.each do |msg| %>
-                    <li><%= msg %></li>
-                <% end %>
-              </ul>
-            </div>
-        <% end %>
-        <div class="field">
-          <label>名前</label>
-          <%= f.text_field :name %>
-        </div>
-        <div class="field">
-          <label>メールアドレス</label>
-          <%= f.email_field :email %>
-        </div>
-        <div class="field">
-          <label>パスワード</label>
-          <%= f.password_field :password %>
-        </div>
-        <div class="field">
-          <label>パスワード確認</label>
-          <%= f.password_field :password_confirmation %>
-        </div>
-        <div class="actions">
-          <%= f.submit "新規登録", class:'submit' %>
-        </div>
-    <% end %>
-    <p>
-      <%= link_to "ログイン", append_query(login_path, p: params[:p]), class:'submit-link' %>
-    </p>
+  <div class="body-outer">
+    <div class="body-inner">
+      <h3>新規登録</h3>
+      <span class="line"></span>
+      <%= form_for @user, url: append_query(signup_path, p: params[:p]), method: :post, html:{id:'sign-up-form'} do |f| %>
+          <div class="field">
+            <%= f.email_field :name, class:'dynamic-label-input form-control', placeholder:'名前' %>
+            <label for="dynamic-label-input">名前</label>
+            <span class="help-text"></span>
+            <div class="text-danger help-text"></div>
+          </div>
+          <div class="field">
+            <%= f.email_field :email, class:'dynamic-label-input form-control', placeholder:'メールアドレス' %>
+            <label for="dynamic-label-input">メールアドレス</label>
+            <span class="help-text"></span>
+            <div class="text-danger help-text"></div>
+          </div>
+          <div class="field">
+            <%= f.password_field :password, class:'dynamic-label-input form-control', placeholder:'パスワード' %>
+            <label for="dynamic-label-input">パスワード</label>
+            <div class="text-danger help-text"></div>
+          </div>
+          <div class="field">
+            <%= f.password_field :password_confirmation, class:'dynamic-label-input form-control', placeholder:'パスワード確認' %>
+            <label for="dynamic-label-input">パスワード確認</label>
+            <div class="text-danger help-text"></div>
+          </div>
+          <div class="button-field">
+            <a href="javascript:void(0)" onclick="$('#sign-up-form').submit();return false;" class="button">新規登録</a>
+            <div class="or">or</div>
+            <%= link_to "ログイン", append_query(login_path, p: params[:p], a: 'none'), class:'button' %>
+          </div>
+      <% end %>
+    </div>
   </div>
 </div>
