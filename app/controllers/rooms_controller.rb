@@ -22,6 +22,7 @@ class RoomsController < ApplicationController
   # 部屋を表示する
   def show
     gon.member_id = current_user.member_id
+    gon.code = members_list_view + allow_search_view
   end
 
   # 部屋の設定する
@@ -34,7 +35,7 @@ class RoomsController < ApplicationController
       flash[:success] = "ルーム設定を正しく保存できました"
       RoomChannel.broadcast_to(current_room,
                                {
-                                   code: "alert('ルーム設定が更新されました');",
+                                   code: allow_search_view,
                                    except: [current_user.id]
                                })
       redirect_to root_path

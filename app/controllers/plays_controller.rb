@@ -5,6 +5,7 @@ class PlaysController < ApplicationController
   before_action :reject_playing, only: [:new]
   def show
     gon.member_id = current_user.member_id
+    gon.code = play_view_code
   end
   def new
     play_start

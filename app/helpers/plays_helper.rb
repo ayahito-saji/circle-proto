@@ -48,6 +48,34 @@ module PlaysHelper
                              })
   end
 
+  def play_view_code
+    # コードの追加
+    code = ""
+
+    # タイトルオブジェクトの設定
+    code += "var object = document.createElement('span');"
+    code += "object.style.position = 'absolute';"
+    code += "object.style.top = '50%';"
+    code += "object.style.left = '50%';"
+    code += "object.style.webkitTransform = 'translate(-50%,-50%)';"
+    code += "object.style.transform = 'translate(-50%,-50%)';"
+    code += "object.style.color = '#ffffff';"
+    code += "object.style.fontSize = '5vw';"
+    code += "object.appendChild(document.createTextNode('汝は人狼なりや。'));"
+    code += "$('#screen').append(object);"
+
+    #ボタンオブジェクト
+    code += "var object = document.createElement('span');"
+    code += "object.style.position = 'absolute';"
+    code += "object.style.top = '0%';"
+    code += "object.style.left = '0%';"
+    code += "object.style.color = '#ffffff';"
+    code += "object.style.fontSize = '5vw';"
+    code += "object.appendChild(document.createTextNode('GameStart'));"
+    code += "$('#screen').append(object);"
+
+    return code;
+  end
   def get_data(data)
     puts("DATA:#{data} FROM:#{current_user.name}")
     if data['class'] == 'input'

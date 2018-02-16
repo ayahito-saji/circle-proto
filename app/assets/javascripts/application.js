@@ -22,12 +22,15 @@ var member_id;
 //ロード時
 $(document).on('turbolinks:load', function(){
     if (typeof(gon) != "undefined"){
-        //サーバーからmember_idを受け取る
+        //サーバーからmember_idを受け取ったら、受け取ったデータは破棄する
         if (typeof(gon.member_id) != "undefined")
             member_id = gon.member_id;
-        //サーバーからjavascriptコードを受け取って実行する
+            delete gon.member_id
+        //サーバーからjavascriptコードを受け取って実行して、受け取ったコードは破棄する
         if (typeof(gon.code) != "undefined")
+            console.log(gon.code);
             eval(gon.code);
+            delete gon.code;
     }
 });
 

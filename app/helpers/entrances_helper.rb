@@ -19,7 +19,7 @@ module EntrancesHelper
       RoomChannel.broadcast_to(current_room,
                         {
                             except: [current_user.member_id],
-                            code: "alert('#{current_user.name}が入室しました');"
+                            code: members_list_view
                         })
       true
     else
@@ -54,7 +54,7 @@ module EntrancesHelper
         RoomChannel.broadcast_to(current_room,
                                  {
                                      except: [current_user.member_id],
-                                     code: "alert('#{current_user.name}が退出しました')"
+                                     code: members_list_view
                                  })
       end
     end
