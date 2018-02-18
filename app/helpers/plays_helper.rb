@@ -51,30 +51,35 @@ module PlaysHelper
   def play_view_code
     # コードの追加
     code = ""
-
     # タイトルオブジェクトの設定
-    code += "var object = document.createElement('span');"
-    code += "object.style.position = 'absolute';"
-    code += "object.style.top = '40%';"
-    code += "object.style.left = '50%';"
-    code += "object.style.webkitTransform = 'translate(-50%,-50%)';"
-    code += "object.style.transform = 'translate(-50%,-50%)';"
-    code += "object.style.color = '#ffffff';"
-    code += "object.style.fontSize = '5vw';"
-    code += "object.appendChild(document.createTextNode('汝は人狼なりや。'));"
-    code += "$('#play-screen').append(object);"
+    code += "var obj_0 = document.createElement(\"span\");"
+    code += "obj_0.setAttribute('id', 'obj_0');"
+    code += "obj_0.style.position = \"absolute\";"
+    code += "obj_0.style.top = \"40%\";"
+    code += "obj_0.style.left = \"50%\";"
+    code += "obj_0.style.webkitTransform = \"translate(-50%,-50%)\";"
+    code += "obj_0.style.transform = \"translate(-50%,-50%)\";"
+    code += "obj_0.style.color = \"#ffffff\";"
+    code += "obj_0.style.fontSize = \"5vw\";"
+    code += "obj_0.appendChild(document.createTextNode('汝は人狼なりや。'));"
+    code += "$('#play-screen').append(obj_0);"
 
-    # ボタンオブジェクト
-    code += "var object = document.createElement('span');"
-    code += "object.style.position = 'absolute';"
-    code += "object.style.top = '80%';"
-    code += "object.style.left = '50%';"
-    code += "object.style.webkitTransform = 'translate(-50%,-50%)';"
-    code += "object.style.transform = 'translate(-50%,-50%)';"
-    code += "object.style.color = '#ffffff';"
-    code += "object.style.fontSize = '3vw';"
-    code += "object.appendChild(document.createTextNode('GameStart'));"
-    code += "$('#play-screen').append(object);"
+    if !current_user.actioned?
+      # ボタンオブジェクト
+      code += "var obj_1 = document.createElement('a');"
+      code += "obj_1.setAttribute('id', 'obj_1');"
+      code += "obj_1.setAttribute('href', 'javascript:void(0);');"
+      code += "obj_1.style.position = 'absolute';"
+      code += "obj_1.style.top = '80%';"
+      code += "obj_1.style.left = '50%';"
+      code += "obj_1.style.webkitTransform = 'translate(-50%,-50%)';"
+      code += "obj_1.style.transform = 'translate(-50%,-50%)';"
+      code += "obj_1.style.color = '#ffffff';"
+      code += "obj_1.style.fontSize = '3vw';"
+      code += "obj_1.appendChild(document.createTextNode('GameStart'));"
+      code += "$('#play-screen').append(obj_1);"
+      code += "$('#obj_1').on('click', function(){App.room.write({'class': 'input'})});"
+    end
 
     return code;
   end
@@ -82,10 +87,15 @@ module PlaysHelper
     puts("DATA:#{data} FROM:#{current_user.name}")
     if data['class'] == 'input'
       current_user.update_attributes(actioned: true)
-        RoomChannel.broadcast_to(current_room,
-                                 {
-                                     code: "alert('#{current_user.name}が入力しました')"
-                                 })
+      code = ""
+      code += "$(\"#obj_1\").hide();"
+      if !current_room.users.where(actioned: false).exists?
+        code += "alert('全員押したで');"
+      end
+      RoomChannel.broadcast_to(current_room,
+                               {
+                                   code: code
+                               })
     end
   end
 

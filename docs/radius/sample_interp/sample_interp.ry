@@ -1,0 +1,52 @@
+class SampleInterp
+  rule
+    stmt : IDENTIFIER '=' expr ';'
+         | expr ';'
+         | if_stmt
+
+    expr : IDENTIFIER
+         | NUMBER
+         | function
+
+    if_stmt   : IF '(' expr ')' '{' stmt '}'
+              | IF '(' expr ')' '{' stmt '}' ELSE '{' stmt '}'
+
+    value     : value '+' value            {result = ['+', val[0], val[2]]}
+              | lit
+
+    lit       : number
+
+    number    : DEC
+end
+
+---- header
+require 'pp'
+require 'strscan'
+
+---- inner
+
+def parse(str)
+  scanner = StringScanner.new(str)
+  @q = []
+  while !scanner.eos?
+    scanner.scan(/\w[\d\w]*\) ?     @q << [:IDENTIFIER, scanner.matched] :
+    scanner.scan(/\d+/) ?           @q << [:DEC, scanner.matched.to_i] :
+    scanner.scan(/./) ?             @q << [scanner.matched, scanner.matched] :
+    (raise "scanner error")
+  end
+  pp(@q)
+
+  do_parse
+end
+
+def next_token
+  @q.shift
+end
+
+---- footer
+if __FILE__ == $0
+  parser = SampleInterp.new
+  str = "1+2+3"
+  res = parser.parse(str)
+  p res
+end
