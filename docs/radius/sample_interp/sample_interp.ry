@@ -1,22 +1,51 @@
 class SampleInterp
+  prechigh
+  nonassoc '==' '!=' '>' '>=' '<' '<='
+  left '*' '/'
+  left '+' '-'
+  preclow
+
   rule
-    stmt : IDENTIFIER '=' expr ';'
-         | expr ';'
-         | if_stmt
+    stmts       :                                               {result = []}
+                | stmts stmt                                    {result << val[1]}
 
-    expr : IDENTIFIER
-         | NUMBER
-         | function
+    stmt        : expr ';'
+                | var_assign
+                | if_stmt
 
-    if_stmt   : IF '(' expr ')' '{' stmt '}'
-              | IF '(' expr ')' '{' stmt '}' ELSE '{' stmt '}'
+    var_assign  : IDENTIFIER '=' expr ';'                       {result = ['VAR_ASSIGN', val[0], val[2]]}
 
-    value     : value '+' value            {result = ['+', val[0], val[2]]}
-              | lit
+    if_stmt     : IF '(' expr ')' '{' stmts '}' else_stmt       {result = ['IF', val[2], val[5], val[7]]}
+                | IF '(' expr ')' stmt else_stmt                {result = ['IF', val[2], val[4], val[5]]}
 
-    lit       : number
+    else_stmt   :
+                | ELSE '{' stmts '}'                            {result = val[2]}
+                | ELSE stmt                                     {result = val[1]}
 
-    number    : DEC
+    expr        : expr '+' expr                                 {result = ['+', val[0], val[2]]}
+                | expr '-' expr                                 {result = ['-', val[0], val[2]]}
+                | '-' expr                                      {result = ['-', ["NUMBER", 0], val[1]]}
+                | expr '*' expr                                 {result = ['*', val[0], val[2]]}
+                | expr '/' expr                                 {result = ['/', val[0], val[2]]}
+                | '(' expr ')'                                  {result = val[1]}
+                | expr '==' expr                                {result = ['==', val[0], val[2]]}
+                | expr '!=' expr                                {result = ['!=', val[0], val[2]]}
+                | expr '>' expr                                 {result = ['>', val[0], val[2]]}
+                | expr '>=' expr                                {result = ['>=', val[0], val[2]]}
+                | expr '<' expr                                 {result = ['<', val[0], val[2]]}
+                | expr '<=' expr                                {result = ['<=', val[0], val[2]]}
+                | func_call
+                | lit
+
+    func_call   : IDENTIFIER '(' list ')'                       {result = ['FUNC_CALL', val[0], val[2]]}
+
+    list        :                                               {result = []}
+                | expr                                          {result = [val[0]]}
+                | list ',' expr                                 {result << val[2]}
+
+    lit         : NUMBER                                        {result = ['NUMBER', val[0]]}
+                | IDENTIFIER                                    {result = ['IDENTIFIER', val[0]]}
+                | STRING                                        {result = ['STRING', val[0]]}
 end
 
 ---- header
@@ -29,12 +58,26 @@ def parse(str)
   scanner = StringScanner.new(str)
   @q = []
   while !scanner.eos?
-    scanner.scan(/\w[\d\w]*\) ?     @q << [:IDENTIFIER, scanner.matched] :
-    scanner.scan(/\d+/) ?           @q << [:DEC, scanner.matched.to_i] :
-    scanner.scan(/./) ?             @q << [scanner.matched, scanner.matched] :
+    scanner.scan(/[\s\n]+/)
+
+    scanner.scan(/if/) ?                        @q << [:IF, "if"] :
+    scanner.scan(/else/) ?                      @q << [:ELSE, "else"] :
+
+    scanner.scan(/\".*?\"/) ?                   @q << [:STRING, scanner.matched[1..-2]] :
+    scanner.scan(/[a-zA-Z_][a-zA-Z0-9_]*/) ?    @q << [:IDENTIFIER, scanner.matched] :
+    scanner.scan(/([0-9]+|[0-9]*\.[0-9]+)/) ?   @q << [:NUMBER, scanner.matched.to_i] :
+
+    scanner.scan(/==/) ?                        @q << ["==", "=="] :
+    scanner.scan(/!=/) ?                        @q << ["!=", "!="] :
+    scanner.scan(/>/) ?                         @q << [">", ">"] :
+    scanner.scan(/>=/) ?                        @q << [">=", ">="] :
+    scanner.scan(/</) ?                         @q << ["<", "<"] :
+    scanner.scan(/<=/) ?                        @q << ["<=", "<="] :
+
+    scanner.scan(/./) ?                         @q << [scanner.matched, scanner.matched] :
     (raise "scanner error")
   end
-  pp(@q)
+  puts ("Token: #{@q}")
 
   do_parse
 end
@@ -46,7 +89,9 @@ end
 ---- footer
 if __FILE__ == $0
   parser = SampleInterp.new
-  str = "1+2+3"
-  res = parser.parse(str)
-  p res
+  File.open("program.rlb", "r") do |f|
+    str = f.read
+    res = parser.parse(str)
+    puts ("Parse: #{res}")
+  end
 end
