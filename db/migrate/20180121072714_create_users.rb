@@ -5,9 +5,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :email
       t.string :password_digest
       t.integer :room_id
-      t.integer :position
-      t.text :var
-      t.boolean :actioned, default: false
+      t.text :play_data
 
       t.timestamps
     end

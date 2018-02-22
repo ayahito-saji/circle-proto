@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180208093520) do
+ActiveRecord::Schema.define(version: 20180221031419) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.string "token"
     t.integer "maximum", default: 7
     t.string "password"
-    t.text "var"
+    t.text "play_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "allow_search", default: false
@@ -25,14 +25,19 @@ ActiveRecord::Schema.define(version: 20180208093520) do
     t.boolean "playing", default: false
   end
 
+  create_table "save_data", force: :cascade do |t|
+    t.integer "user_id"
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "password_digest"
     t.integer "room_id"
-    t.integer "position"
-    t.text "var"
-    t.boolean "actioned", default: false
+    t.text "play_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "premium", default: false

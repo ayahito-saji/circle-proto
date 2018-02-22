@@ -12,7 +12,7 @@
 <p id="members_list"></p>
 <p id="allow_search"></p>
 <% if !current_room.playing? %>
-    <p><%= link_to "Game Start", play_start_path %></p>
+    <p><a href="javascript:void(0)" onclick="App.room.write({class: 'start'})">GameStart</a></p>
 <% end %>
 <p><%= link_to "ルーム設定", room_setting_path %></p>
 <p><%= link_to "退出", exit_path, method: :delete %></p>

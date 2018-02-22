@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   before_save { self.email.downcase! }
-  serialize :var, Hash
+  serialize :play_data
   validates :name,
             presence: true,
             length:{maximum: 50}
@@ -16,6 +16,7 @@ class User < ApplicationRecord
             allow_nil: true
   has_secure_password
   belongs_to :room, optional: true
+  has_many :save_data
 
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

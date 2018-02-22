@@ -1,19 +1,13 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+AyahitoSaji:
+  name: Ayahito Saji
+  email: ayahito_saji@outlook.jp
+  password_digest: <%= User.digest('ayahito') %>
+  premium: true
 
-one:
-  name: MyString
-  email: MyString
-  password_digest: MyString
-  room_id: 1
-  position: 1
-  var: MyText
-  actioned?: false
-
-two:
-  name: MyString
-  email: MyString
-  password_digest: MyString
-  room_id: 1
-  position: 1
-  var: MyText
-  actioned?: false
+<% 10.times do |n| %>
+usersample_<%= n %>:
+  name: <%= "UserSample#{n}" %>
+  email: <%= "usersample#{n}@example.com" %>
+  password_digest: <%= User.digest('usersample') %>
+  premium: false
+<% end %>

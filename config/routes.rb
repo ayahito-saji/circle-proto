@@ -23,9 +23,7 @@ Rails.application.routes.draw do
 
   get "enter", to: "entrances#show"
 
-  get "play/start", to: "plays#new"
   get "play", to: "plays#show"
-  delete "play/end", to: "plays#destroy"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

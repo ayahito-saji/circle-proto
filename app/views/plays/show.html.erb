@@ -2,4 +2,5 @@
   <div id="play-screen">
   </div>
 </div>
-<%= link_to "ゲーム終了", play_end_path, method: :delete %>
+<a href="javascript:void(0)" onclick="App.room.write({class: 'end'})">GameEnd</a>
+<%= current_user.play_data %>
