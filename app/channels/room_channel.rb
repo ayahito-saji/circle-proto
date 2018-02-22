@@ -1,10 +1,8 @@
 class RoomChannel < ApplicationCable::Channel
-  include PlaysHelper
-  include EntrancesHelper
-  include RoomsHelper
+  include Plays
   def subscribed
     # stream_from "some_channel"
-    stream_for current_room
+    stream_for croom
   end
 
   def unsubscribed
@@ -12,6 +10,10 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def read(data)
-    get_data(data)
+    @current_user = User.find_by(id: cuser)
+    @current_room = Room.find_by(id: croom)
+    @params = data['params']
+    debug
+    input
   end
 end

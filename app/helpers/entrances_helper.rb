@@ -16,11 +16,7 @@ module EntrancesHelper
       current_user.update_attribute(:room_id, room.id)
       current_user.update_attribute(:member_id, room.users.count - 1)
       room.update_attribute(:maximum, -1) if current_user.premium?
-      RoomChannel.broadcast_to(current_room,
-                        {
-                            except: [current_user.member_id],
-                            code: members_list_view
-                        })
+      RoomChannel.broadcast_to(current_room, {code: members_list_view})
       true
     else
       false
@@ -42,7 +38,7 @@ module EntrancesHelper
       if !exit_room.users.exists?
         exit_room.destroy
       elsif !(exit_room.users.count <= exit_room.maximum || exit_room.maximum == -1)
-        broadcast_to_room(exit_room, "プレミアムユーザーが抜けたため、この部屋は7人より多い人数で利用できません。", except: [current_user])
+        # broadcast_to_room(exit_room, "プレミアムユーザーが抜けたため、この部屋は7人より多い人数で利用できません。", except: [current_user])
         exit_room.users.each do |user|
           user.update_attribute(:room_id, nil)
         end
@@ -51,11 +47,7 @@ module EntrancesHelper
         exit_room.users.order(:member_id).each_with_index do |user, i|
           user.update_attribute(:member_id, i)
         end
-        RoomChannel.broadcast_to(current_room,
-                                 {
-                                     except: [current_user.member_id],
-                                     code: members_list_view
-                                 })
+        RoomChannel.broadcast_to(current_room, {code: members_list_view})
       end
     end
     @current_room = nil

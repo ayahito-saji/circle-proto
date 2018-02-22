@@ -1,5 +1,7 @@
 App.room = App.cable.subscriptions.create "RoomChannel",
   connected: ->
+    if $("body").attr("data-controller") == "plays"
+      App.room.write({'class': 'load'})
     # Called when the subscription is ready for use on the server
 
   disconnected: ->
@@ -9,8 +11,7 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    if !(typeof(data.except) != "undefined" and data.except.indexOf(member_id) != -1)
       ac_received(data.code)
 
   write: (data) ->
-    @perform 'read', data
+    @perform 'read', params: data

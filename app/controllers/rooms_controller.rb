@@ -21,7 +21,6 @@ class RoomsController < ApplicationController
 
   # 部屋を表示する
   def show
-    gon.member_id = current_user.member_id
     gon.code = members_list_view + allow_search_view
   end
 
@@ -33,11 +32,7 @@ class RoomsController < ApplicationController
     current_room.skip_search_validation = room_params[:allow_search].to_i.zero?
     if current_room.update_attributes(room_params)
       flash[:success] = "ルーム設定を正しく保存できました"
-      RoomChannel.broadcast_to(current_room,
-                               {
-                                   code: allow_search_view,
-                                   except: [current_user.id]
-                               })
+      RoomChannel.broadcast_to(current_room, {code: allow_search_view})
       redirect_to root_path
     else # 部屋の設定に失敗した場合、ルーム名がすでに使用されている
       flash.now[:danger] = "ルーム名、ルームキーが空白か、そのルーム名は既に使用されています"
