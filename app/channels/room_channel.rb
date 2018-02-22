@@ -1,5 +1,6 @@
 class RoomChannel < ApplicationCable::Channel
   include Plays
+  include PlayObjects
   def subscribed
     # stream_from "some_channel"
     stream_for croom
@@ -14,6 +15,6 @@ class RoomChannel < ApplicationCable::Channel
     @current_room = Room.find_by(id: croom)
     @params = data['params']
     debug
-    input
+    route
   end
 end
