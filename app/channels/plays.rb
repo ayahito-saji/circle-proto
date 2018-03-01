@@ -1,10 +1,4 @@
 module Plays
-  require 'json'
-  def debug
-    p("USER PLAY_DATA:#{@current_user}")
-    p("ROOM PLAY_DATA:#{@current_room}")
-    p("DATA #{@params}")
-  end
   def route
     case @params['class']
       when 'start'  # 開始ボタンを押す
@@ -15,7 +9,16 @@ module Plays
         # 全変数の初期化
         @current_room.update_attribute(:play_data, {system: {}, play: {}})
         @current_room.users.each do |user|
-          user.update_attribute(:play_data, {system: {active: true, prg_pointer: [{phase: 'title', actioned: false}]}, play: {}})
+          user.update_attribute(:play_data, {
+              system: {
+                  active: true,
+                  prg_pointer: [
+                      {phase: 'title', phs_pointer: 0}
+                  ],
+                  view_objects: {}
+              },
+              play: {}
+          })
         end
 
         # プレイ開始したので、全員play画面に移行する
@@ -37,28 +40,63 @@ module Plays
         # プレイ終了したので、全員room画面に移行する
         RoomChannel.broadcast_to(@current_room, {code: "setTimeout(function(){location.href = '/';}, #{@current_user.member_id * 200});"})
 
-      when 'load' # 全員これを処理する
-        puts("!!!RELOAD!!!")
-        draw(@current_user.id)
-      when 'action' # 一人ずつ処理する
-        if @current_user.play_data[:system][:prg_pointer][-1][:actioned] then return end
-        case @current_user.play_data[:system][:prg_pointer][-1][:phase]
-          when 'title'
-            # 変数の書き換え
-            @current_user.play_data[:system][:prg_pointer][-1][:actioned] = true
-            @current_user.update_attribute(:play_data, @current_user.play_data)
-            code = ""
-            animation_data = [
-                {timing: :after, id: 'start-btn', start: {opacity: 1}, end: {opacity: 0}, time: 1},
-                {timing: :same, id: 'title', start: {opacity: 1}, end: {opacity: 0}, time: 1}
-            ]
-            code += object_animation(animation_data)
-            UserChannel.broadcast_to(@current_user, {code: code})
-            if all_actioned?
-              goto 'job_set'
-            end
-        end
+      when 'load' # ユーザーがページの更新したらここへ
+        do_phase(@current_user.id)
+      when 'action' # ユーザーがデータをActionCable経由で与えてきたらここへ
+        action(@params['data'])
     end
+  end
+
+  def do_phase(user_id)
+    user = User.find_by(id: user_id)
+
+    case [user.play_data[:system][:prg_pointer][-1][:phase], user.play_data[:system][:prg_pointer][-1][:phs_pointer]] # 現在のフェイズと、フェイズ内での進行度によって振り分ける
+      when ['title', 0] # タイトルフェイズ 進行度0の場合、アニメーションを表示する
+        code = ""
+        # ビューオブジェクトの追加
+        user.play_data[:system][:view_objects][:title] = ViewObject.new('title',:HeadText,
+                                                                       {
+                                                                           text: '汝は人狼なりや?',
+                                                                           left: 50,
+                                                                           size: 6,
+                                                                           home: :center
+                                                                       })
+        code += user.play_data[:system][:view_objects][:title].to_js
+
+        # アニメーションの設定
+        animations = Animations.new
+        animations.append({timing: 0, id: :title, start: {opacity: 0, top: 50}, end: {opacity: 1, top: 30}, time: 1})
+
+        user.play_data[:system][:view_objects] = animations.update_view_objects(user.play_data[:system][:view_objects])
+        code += animations.to_js
+
+        # 進行度+1
+        user.play_data[:system][:prg_pointer][-1][:phs_pointer] += 1
+
+        puts user.play_data[:system][:view_objects]
+
+        # プレイデータの更新とフロントでのコードの実行
+        user.update_attribute(:play_data, user.play_data)
+        UserChannel.broadcast_to(user, {code: code})
+      when ['title', 1] # アニメーションを表示中の場合
+        code = ""
+        user.play_data[:system][:view_objects].each_key do |key|
+          puts key
+          code += user.play_data[:system][:view_objects][key].to_js
+        end
+        UserChannel.broadcast_to(user, {code: code})
+    end
+  end
+  def action(data)
+  end
+  def set_timer(hour, min, sec)
+    time = Time.now
+    time += hour * 3600 + min * 60 + sec
+    return time.to_s
+  end
+  def timer_view(time_str)
+    time_str.gsub!(/-/, '/')
+    return "var time_limit = Date.parse(\"#{time_str}\");var timer = setInterval(function(){var time_now = new Date();var time_left = Math.floor((time_limit - time_now) / 1000);$(\"#timer\").text((\"0\"+Math.floor(time_left/3600)).slice(-2)+\":\"+(\"0\"+Math.floor((time_left%3600)/60)).slice(-2)+\":\"+(\"0\"+time_left%60).slice(-2));}, 100);"
   end
 
   def all_actioned?
@@ -76,60 +114,11 @@ module Plays
     sp = @current_user.play_data[:system][:prg_pointer].length - 1
     @current_room.users.each do |user|
       user.play_data[:system][:prg_pointer] = (sp > 0 ? user.play_data[:system][:prg_pointer][0..(sp - 1)] : [])
-      user.play_data[:system][:prg_pointer].append({phase: phase, actioned: false})
+      user.play_data[:system][:prg_pointer].append({phase: phase, phs_pointer: 0})
       user.update_attribute(:play_data, user.play_data)
     end
     @current_room.users.each do |user|
       do_phase(user)
-    end
-  end
-
-  def do_phase(user)
-    case user.play_data[:system][:prg_pointer][-1][:phase]
-      when 'job_set'
-        if user.member_id == 0
-          job = ["werewolf"]
-          (1...@current_room.users.count).each do
-            job.append("civilian")
-          end
-          job.shuffle!
-          @current_room.users.order(:member_id).each do |user|
-            user.play_data[:play][:job] = job.shift
-            user.update_attribute(:play_data, user.play_data)
-          end
-          @current_room.play_data[:play][:day] = 0
-          @current_room.update_attribute(:play_data, @current_room.play_data)
-        end
-        draw(user.id)
-    end
-  end
-
-  def draw(user_id)
-    user = User.find_by(id: user_id)
-    puts("☆★☆★ DRAW#{user.name}")
-    puts("#{user.play_data}")
-    case user.play_data[:system][:prg_pointer][-1][:phase]
-      when 'title'
-        code = ""
-        code += text_object(id: 'title', text: '汝は人狼なりや.', home: 'center', top: 40, left: 50, size: 5, opacity: 1)
-        if !user.play_data[:system][:prg_pointer][-1][:actioned]
-          code += text_object(tag: 'a', id: 'start-btn', text: 'GameStart', home: 'center', top: 70, left: 50, size: 3, opacity: 1)
-        end
-        code += "$('#start-btn').on('click', function(){App.room.write({'class': 'action'})});"
-        animation_data = [
-            {timing: 0, id: 'title', start: {opacity: 0, top: 50}, end: {opacity: 1, top: 30}, time: 1},
-            {timing: :after, id: 'start-btn', start: {opacity: 0}, end: {opacity: 1}, time: 1}
-        ]
-        code += object_animation(animation_data)
-        UserChannel.broadcast_to(user, {code: code})
-      when 'job_set'
-        code = ""
-        code += text_object(id: 'job_set', text: "あなたは#{user.play_data[:play][:job]}です", home: 'center', top: 30, left: 50, size: 3, opacity: 1)
-        animation_data = [
-            {timing: 0, id: 'job_set', start: {opacity: 0, top: 50}, end: {opacity: 1, top: 30}, time: 1}
-        ]
-        code += object_animation(animation_data)
-        UserChannel.broadcast_to(user, {code: code})
     end
   end
 end

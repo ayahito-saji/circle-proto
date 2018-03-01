@@ -1,4 +1,6 @@
 module PlayObjects
+  load 'animations.rb'
+  load 'view_object.rb'
   # テキストオブジェクトのソースコードを返します
   # paramsで
   def text_object(**params)
@@ -48,10 +50,11 @@ module PlayObjects
     return code
   end
   def animation_object_option(option)
-    option[:top] = "#{option[:top]}%" if option[:top] && option[:top].kind_of?(Integer)
-    option[:left] = "#{option[:left]}%" if option[:left] && option[:left].kind_of?(Integer)
-    option[:right] = "#{option[:right]}%" if option[:right] && option[:right].kind_of?(Integer)
-    option[:bottom] = "#{option[:bottom]}%" if option[:bottom] && option[:bottom].kind_of?(Integer)
+    option[:fontSize] = "#{option[:size]}vw" if option[:size]
+    option[:top] = "#{option[:top]}%" if option[:top]
+    option[:left] = "#{option[:left]}%" if option[:left]
+    option[:right] = "#{option[:right]}%" if option[:right]
+    option[:bottom] = "#{option[:bottom]}%" if option[:bottom]
     return option
   end
 end

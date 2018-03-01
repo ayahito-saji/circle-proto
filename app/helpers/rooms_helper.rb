@@ -3,7 +3,7 @@ module RoomsHelper
   def members_list_view
     code = "<ul>"
     current_room.users.order(:member_id).each do |user|
-      code += "<li>#{user.name}{#{user.play_data}}</li>"
+      code += "<li>#{user.name}</li>"
     end
     code += "</ul>"
     return "$('#members_list').html('#{code}');"

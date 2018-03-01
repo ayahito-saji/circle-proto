@@ -18,5 +18,27 @@
     overflow: hidden;
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
+
+    /* ソシャゲ風強調文字 */
+    .head-text {
+      position: absolute;
+      text-shadow: 0px -1px #ffffff, -1px 0px #ffffff, 0px 1px #ffffff, 1px 0px #ffffff, 0px 2px #000000, 0px 3px #000000, 0px 0px 0.1em #000000;
+      color: transparent;
+
+      &:after {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        text-shadow: none;
+        content: attr(title);
+        background: -webkit-linear-gradient(top, #dceded 0%,
+                #c0e0e0 50%,
+                #84c1c1 51%,
+                #c0e0e0 90%,
+                #dceded 100%);
+        color: transparent;
+        -webkit-background-clip: text;
+      }
+    }
   }
 }

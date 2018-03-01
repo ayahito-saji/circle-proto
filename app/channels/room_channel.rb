@@ -14,7 +14,6 @@ class RoomChannel < ApplicationCable::Channel
     @current_user = User.find_by(id: cuser)
     @current_room = Room.find_by(id: croom)
     @params = data['params']
-    debug
     route
   end
 end
