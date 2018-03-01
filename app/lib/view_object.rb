@@ -7,14 +7,18 @@ class ViewObject
   end
   def to_js
     js_code = ""
+    options = params_parser
     case @type
       when :HeadText
-        options = params_to_options
-        options[:class] = "head-text"
-        options[:title] = options[:text]
-        js_code += "var #{@id} = $(\"<span></span>\", #{options.to_json});"
-        js_code += "$(\"#play-screen\").append(#{@id});"
+        options[:attr][:class] = "head-text"
+        options[:attr][:title] = options[:attr][:text]
+        js_code += "var #{@id} = $(\"<span></span>\", #{options[:attr].to_json});"
+      when :Link
+        options[:attr][:href] = "javascript:void(0)"
+        js_code += "var #{@id} = $(\"<a></a>\", #{options[:attr].to_json});"
     end
+    js_code += "#{@id}.on({#{options[:on].join(',')}});" if options[:on].length > 0
+    js_code += "$(\"#play-screen\").append(#{@id});"
     return js_code
   end
   def set_param(key, value)
@@ -22,28 +26,34 @@ class ViewObject
   end
 
   private
-  def params_to_options
-    options = {}
-    options[:id] = @id
+  def params_parser
+    options = {
+        attr: {},
+        on: []
+    }
+    options[:attr][:id] = @id
+    options[:attr][:css] = {
+        position: "absolute"
+    }
     @params.each_key do |key|
       case key
         when :top, :left, :bottom, :right, :width, :height
-          options[:css] = {} if options[:css].nil?
-          options[:css][key] = "#{@params[key]}%"
+          options[:attr][:css][key] = "#{@params[key]}%"
         when :size
-          options[:css] = {} if options[:css].nil?
-          options[:css][:fontSize] = "#{@params[:size]}vw"
+          options[:attr][:css][:fontSize] = "#{@params[:size]}vw"
         when :home
           if @params[:home] == :center
-            options[:css] = {} if options[:css].nil?
-            options[:css][:webkitTransform] = "translate(-50%,-50%)"
-            options[:css][:transform] = "translate(-50%,-50%)"
+            options[:attr][:css][:webkitTransform] = "translate(-50%,-50%)"
+            options[:attr][:css][:transform] = "translate(-50%,-50%)"
           end
         when :opacity, :color
-          options[:css] = {} if options[:css].nil?
-          options[:css][key] = @params[key]
+          options[:attr][:css][key] = @params[key]
+        when :on
+          @params[:on].each_key do |key|
+            options[:on].append("'#{key}': function(){#{@params[:on][key]}}")
+          end
         else
-          options[key] = @params[key]
+          options[:attr][key] = @params[key]
       end
     end
     return options
