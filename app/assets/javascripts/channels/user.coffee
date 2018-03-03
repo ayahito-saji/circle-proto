@@ -9,4 +9,4 @@ App.user = App.cable.subscriptions.create "UserChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    ac_received(data.code)
+    ac_received(data)

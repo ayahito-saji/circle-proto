@@ -4,6 +4,8 @@ class RoomChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
     stream_for croom
+    @user_id = cuser.id
+    @room_id = croom.id
   end
 
   def unsubscribed
@@ -11,8 +13,6 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def read(data)
-    @current_user = User.find_by(id: cuser)
-    @current_room = Room.find_by(id: croom)
     @params = data['params']
     route
   end

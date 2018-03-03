@@ -27,8 +27,8 @@ class Animations < Array
       code += ");"
     end
     code += ", 'swing', function(){"
-    code += to_js_sub(data, callback) if !data.blank? && data[0][:timing] == :after
     code += callback if data.blank?
+    code += to_js_sub(data, callback) if !data.blank? && data[0][:timing] == :after
     code += "}"
 
     code += ");"

@@ -1,5 +1,4 @@
-$(document).on('turbolinks:load', ->
-  App.room = App.cable.subscriptions.create "RoomChannel",
+App.room = App.cable.subscriptions.create "RoomChannel",
   connected: ->
     if $("body").attr("data-controller") == "plays"
       App.room.write({'class': 'load'})
@@ -12,8 +11,12 @@ $(document).on('turbolinks:load', ->
 
   received: (data) ->
 # Called when there's incoming data on the websocket for this channel
-    ac_received(data.code)
+    ac_received(data)
 
   write: (data) ->
     @perform 'read', params: data
+
+$(document).on('turbolinks:load', ->
+  if $("body").attr("data-controller") == "plays"
+    App.room.write({'class': 'load'})
 )

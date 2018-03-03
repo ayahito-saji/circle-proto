@@ -13,12 +13,22 @@ class ViewObject
         options[:attr][:class] = "head-text"
         options[:attr][:title] = options[:attr][:text]
         js_code += "var #{@id} = $(\"<span></span>\", #{options[:attr].to_json});"
+        js_code += "#{@id}.on({#{options[:on].join(',')}});" if options[:on].length > 0
+        js_code += "$(\"#play-screen\").append(#{@id});"
       when :Link
         options[:attr][:href] = "javascript:void(0)"
         js_code += "var #{@id} = $(\"<a></a>\", #{options[:attr].to_json});"
+        js_code += "#{@id}.on({#{options[:on].join(',')}});" if options[:on].length > 0
+        js_code += "$(\"#play-screen\").append(#{@id});"
+      when :AquaButton
+        options[:attr][:class] = "aqua-button"
+        options[:attr][:href] = "javascript:void(0)"
+        options[:attr][:css][:borderRadius] = "#{@params[:height] * 0.4255}vw"
+        js_code += "var #{@id} = $(\"<a></a>\", #{options[:attr].to_json});"
+        js_code += "#{@id}.on({#{options[:on].join(',')}});" if options[:on].length > 0
+        js_code += "$(\"#play-screen\").append(#{@id});"
+        js_code += "$(\"##{@id}\").html(\"<span class='highlight' style='border-radius: #{options[:attr][:css][:borderRadius]};'></span><span class='text'>#{@params[:text]}</span>\");"
     end
-    js_code += "#{@id}.on({#{options[:on].join(',')}});" if options[:on].length > 0
-    js_code += "$(\"#play-screen\").append(#{@id});"
     return js_code
   end
   def set_param(key, value)

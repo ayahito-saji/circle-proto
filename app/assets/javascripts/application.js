@@ -16,7 +16,6 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require_tree .
-
 //ロード時
 $(document).on('turbolinks:load', function(){
     if (typeof(gon) != "undefined"){
@@ -28,8 +27,11 @@ $(document).on('turbolinks:load', function(){
     }
 });
 
+var loaded = false;
 //データを受け取り時
 function ac_received(data) {
-    console.log(data);
-    eval(data);
+    if (data.class == "load" && loaded) return;
+    if (data.class == "load") loaded = true;
+    console.log(data.code);
+    eval(data.code);
 }
