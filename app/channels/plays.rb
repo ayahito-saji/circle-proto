@@ -1,6 +1,6 @@
 module Plays
-  def route
-    case @params['class']
+  def route(params)
+    case params['class']
       when 'start'  # 開始ボタンを押す
         room = Room.find_by(id: @room_id)
         if room.playing? == true then return end
@@ -43,9 +43,9 @@ module Plays
         RoomChannel.broadcast_to(room, {code: "location.href = '/';", class: "push"})
 
       when 'load' # ユーザーがページの更新したらここへ
-        do_phase(:get, cuser.id, nil, nil)
+        do_phase(:get, @user_id, nil, nil)
       when 'action' # ユーザーがデータをActionCable経由で与えてきたらここへ
-        do_phase(:post, cuser.id, @params['data'], nil)
+        do_phase(:post, @user_id, params['data'], nil)
     end
   end
 
@@ -70,7 +70,7 @@ module Plays
 
           animations = Animations.new
           animations.append({timing: 0, id: :title, start: {opacity: 0, top: 50}, end: {opacity: 1, top: 30}, time: 1})
-          animations.append({timing: :after, id: :start_button, start: {opacity: 0, top: 80}, end: {opacity: 1, top: 70}, time: 1})
+          animations.append({timing: :after, id: :start_button, start: {opacity: 0, top: 80}, end: {opacity: 1, top: 70}, time: 0.5})
           user.play_data[:system][:view_objects] = animations.update_view_objects(user.play_data[:system][:view_objects])
           code += animations.to_js("App.room.write({'class': 'action'});")
 
@@ -111,7 +111,7 @@ module Plays
           code = ""
 
           animations = Animations.new
-          animations.append({timing: 0, id: :start_button, start: {opacity: 1}, end: {opacity: 0}, time: 1})
+          animations.append({timing: 0, id: :start_button, start: {opacity: 1}, end: {opacity: 0}, time: 0.5})
           user.play_data[:system][:view_objects] = animations.update_view_objects(user.play_data[:system][:view_objects])
           code += animations.to_js("$(\"#_start_button\").remove();App.room.write({'class': 'action'});")
 
@@ -149,7 +149,7 @@ module Plays
           code = ""
 
           animations = Animations.new
-          animations.append({timing: 0, id: :title, start: {opacity: 1}, end: {opacity: 0}, time: 1})
+          animations.append({timing: 0, id: :title, start: {opacity: 1}, end: {opacity: 0}, time: 0.5})
           user.play_data[:system][:view_objects] = animations.update_view_objects(user.play_data[:system][:view_objects])
           code += animations.to_js("$(\"#_title\").remove();App.room.write({'class': 'action'});")
 
@@ -179,7 +179,50 @@ module Plays
         user.update_attribute(:play_data, user.play_data)
         do_phase(:nil, user_id, nil, user)
       when ['job_set', 0]
+        if method == :nil # アニメーション開始
+          code = ""
 
+          user.play_data[:system][:view_objects][:job] = ViewObject.new('job',:HeadText, {text: 'あなたは人狼です', top: 20, left: 30, size: 4, home: :center})
+          code += user.play_data[:system][:view_objects][:job].to_js
+          user.play_data[:system][:view_objects][:next_button] = ViewObject.new('next_button', :AquaButton, {text: '次へ進む', left: 80, size: 4, width: 20, height: 15, home: :center, on:{click: "App.room.write({'class': 'action'});"}})
+          code += user.play_data[:system][:view_objects][:next_button].to_js
+
+          animations = Animations.new
+          animations.append({timing: 0, id: :job, start: {opacity: 0}, end: {opacity: 1}, time: 0.5})
+          animations.append({timing: :after, id: :next_button, start: {opacity: 0, top: 90}, end: {opacity: 1, top: 80}, time: 0.5})
+          user.play_data[:system][:view_objects] = animations.update_view_objects(user.play_data[:system][:view_objects])
+          code += animations.to_js("App.room.write({'class': 'action'});")
+
+          user.update_attribute(:play_data, user.play_data)
+          UserChannel.broadcast_to(user, {code: code, class: "push"})
+        elsif method == :get # アニメーション中に読み込み
+          code = ""
+          user.play_data[:system][:view_objects].each_key do |key|
+            code += user.play_data[:system][:view_objects][key].to_js
+          end
+          UserChannel.broadcast_to(user, {code: code, class: "load"})
+          user.play_data[:system][:prg_pointer][-1][:phs_pointer] = 1
+          user.update_attribute(:play_data, user.play_data)
+          do_phase(:nil, user_id, nil, user)
+
+        elsif method == :post # アニメーション終了時
+          user.play_data[:system][:prg_pointer][-1][:phs_pointer] = 1
+          user.update_attribute(:play_data, user.play_data)
+          do_phase(:nil, user_id, nil, user)
+        end
+      when ['job_set', 1] # input
+        if method == :nil # input待機開始時
+        elsif method == :get # input待機中に読み込み
+          code = ""
+          user.play_data[:system][:view_objects].each_key do |key|
+            code += user.play_data[:system][:view_objects][key].to_js
+          end
+          UserChannel.broadcast_to(user, {code: code, class: "load"})
+        elsif method == :post # input待機中に入力あり
+          user.play_data[:system][:prg_pointer][-1][:phs_pointer] = 2
+          user.update_attribute(:play_data, user.play_data)
+          do_phase(:nil, user_id, nil, user)
+        end
     end
   end
 

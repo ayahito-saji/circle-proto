@@ -13,7 +13,6 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def read(data)
-    @params = data['params']
-    route
+    route data['params']
   end
 end
